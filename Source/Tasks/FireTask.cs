@@ -84,8 +84,8 @@ namespace BulletMLLib
 		/// <param name="owner">Owner.</param>
 		public FireTask(FireNode node, BulletMLTask owner) : base(node, owner)
 		{
-			Debug.Assert(null != Node);
-			Debug.Assert(null != Owner);
+			System.Diagnostics.Debug.Assert(null != Node);
+			System.Diagnostics.Debug.Assert(null != Owner);
 
 			NumTimesInitialized = 0;
 		}
@@ -123,8 +123,8 @@ namespace BulletMLLib
 		/// <param name="bullet">the bullet this dude is controlling</param>
 		public override void ParseChildNode(BulletMLNode childNode, Bullet bullet)
 		{
-			Debug.Assert(null != childNode);
-			Debug.Assert(null != bullet);
+			System.Diagnostics.Debug.Assert(null != childNode);
+			System.Diagnostics.Debug.Assert(null != bullet);
 
 			switch (childNode.Name)
 			{
@@ -268,11 +268,11 @@ namespace BulletMLLib
 			}
 
 			//make sure the direction is between 0 and 359
-			while (FireDirection > Math.PI)
+			while ((2.0f * Math.PI) <= FireDirection)
 			{
 				FireDirection -= (2.0f * (float)Math.PI);
 			}
-			while (-Math.PI > FireDirection)
+			while (0.0f > FireDirection)
 			{
 				FireDirection += (2.0f * (float)Math.PI);
 			}
@@ -311,8 +311,12 @@ namespace BulletMLLib
 
 			//initialize the bullet with the bullet node stored in the Fire node
 			FireNode myFireNode = Node as FireNode;
-			Debug.Assert(null != myFireNode);
-			newBullet.InitNode(myFireNode.BulletDescriptionNode);
+			System.Diagnostics.Debug.Assert(null != myFireNode);
+			
+      newBullet.InitNode(myFireNode.BulletDescriptionNode);
+
+      // Let the bullet handler initialize the bullet ingame data
+      newBullet.InitBullet();
 
 			//set the owner of all the top level tasks for the new bullet to this dude
 			foreach (BulletMLTask task in newBullet.Tasks)

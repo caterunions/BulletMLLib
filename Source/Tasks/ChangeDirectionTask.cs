@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using System.Diagnostics;
 
 namespace BulletMLLib
@@ -32,8 +31,8 @@ namespace BulletMLLib
 		/// <param name="owner">Owner.</param>
 		public ChangeDirectionTask(ChangeDirectionNode node, BulletMLTask owner) : base(node, owner)
 		{
-			Debug.Assert(null != Node);
-			Debug.Assert(null != Owner);
+			System.Diagnostics.Debug.Assert(null != Node);
+			System.Diagnostics.Debug.Assert(null != Owner);
 		}
 
 		/// <summary>
@@ -88,8 +87,15 @@ namespace BulletMLLib
 				break;
 			}
 
-			//keep the direction between -180 and 180
-			DirectionChange = MathHelper.WrapAngle(DirectionChange);
+			//keep the direction between 0 and 360
+			if (DirectionChange > Math.PI)
+			{
+				DirectionChange -= 2 * (float)Math.PI;
+			}
+			else if (DirectionChange < -Math.PI)
+			{
+				DirectionChange += 2 * (float)Math.PI;
+			}
 
 			//The sequence type of change direction is unaffected by the duration
 			if (changeType != ENodeType.sequence)

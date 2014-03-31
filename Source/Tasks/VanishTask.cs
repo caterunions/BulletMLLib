@@ -16,8 +16,8 @@ namespace BulletMLLib
 		/// <param name="owner">Owner.</param>
 		public VanishTask(VanishNode node, BulletMLTask owner) : base(node, owner)
 		{
-			Debug.Assert(null != Node);
-			Debug.Assert(null != Owner);
+			System.Diagnostics.Debug.Assert(null != Node);
+			System.Diagnostics.Debug.Assert(null != Owner);
 		}
 
 		/// <summary>
@@ -30,7 +30,7 @@ namespace BulletMLLib
 		{
 			//remove the bullet via the bullet manager interface
 			IBulletManager manager = bullet.MyBulletManager;
-			Debug.Assert(null != manager);
+			System.Diagnostics.Debug.Assert(null != manager);
 			manager.RemoveBullet(bullet);
 			return ERunStatus.End;
 		}

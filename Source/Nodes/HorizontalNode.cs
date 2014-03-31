@@ -3,10 +3,11 @@ using System.Xml;
 
 namespace BulletMLLib
 {
-	public class HorizontalNode : BulletMLNode
-	{
-		public HorizontalNode() : base(ENodeName.horizontal)
-		{
-		}
-	}
+  public class HorizontalNode : BulletMLNode
+  {
+    public HorizontalNode()
+      : base(ENodeName.horizontal)
+    {
+    }
+  }
 }

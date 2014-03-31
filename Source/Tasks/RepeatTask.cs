@@ -19,8 +19,8 @@ namespace BulletMLLib
 		/// <param name="owner">Owner.</param>
 		public RepeatTask(RepeatNode node, BulletMLTask owner) : base(node, owner)
 		{
-			Debug.Assert(null != Node);
-			Debug.Assert(null != Owner);
+			System.Diagnostics.Debug.Assert(null != Node);
+			System.Diagnostics.Debug.Assert(null != Owner);
 		}
 
 		/// <summary>

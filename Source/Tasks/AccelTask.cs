@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using UnityEngine;
 using System.Diagnostics;
 
 namespace BulletMLLib
@@ -18,7 +18,7 @@ namespace BulletMLLib
 		/// <summary>
 		/// The direction to accelerate in 
 		/// </summary>
-		private Vector2 _acceleration = Vector2.Zero;
+		private Vector2 _acceleration = Vector2.zero;
 		
 		/// <summary>
 		/// Gets or sets the acceleration.
@@ -47,8 +47,8 @@ namespace BulletMLLib
 		/// <param name="owner">Owner.</param>
 		public AccelTask(AccelNode node, BulletMLTask owner) : base(node, owner)
 		{
-			Debug.Assert(null != Node);
-			Debug.Assert(null != Owner);
+			System.Diagnostics.Debug.Assert(null != Node);
+			System.Diagnostics.Debug.Assert(null != Owner);
 		}
 
 		/// <summary>
@@ -76,21 +76,21 @@ namespace BulletMLLib
 					case ENodeType.sequence:
 					{
 						//Sequence in an acceleration node means "add this amount every frame"
-						_acceleration.X = horiz.GetValue(this);
+						_acceleration.x = horiz.GetValue(this);
 					}
 					break;
 
 					case ENodeType.relative:
 					{
 						//accelerate by a certain amount
-						_acceleration.X = horiz.GetValue(this) / Duration;
+						_acceleration.x = horiz.GetValue(this) / Duration;
 					}
 					break;
 
 					default:
 					{
 						//accelerate to a specific value
-						_acceleration.X = (horiz.GetValue(this) - bullet.Acceleration.X) / Duration;
+						_acceleration.x = (horiz.GetValue(this) - bullet.Acceleration.x) / Duration;
 					}
 					break;
 				}
@@ -106,21 +106,21 @@ namespace BulletMLLib
 					case ENodeType.sequence:
 					{
 						//Sequence in an acceleration node means "add this amount every frame"
-						_acceleration.Y = vert.GetValue(this);
+						_acceleration.y = vert.GetValue(this);
 					}
 					break;
 
 					case ENodeType.relative:
 					{
 						//accelerate by a certain amount
-						_acceleration.Y = vert.GetValue(this) / Duration;
+						_acceleration.y = vert.GetValue(this) / Duration;
 					}
 					break;
 
 					default:
 					{
 						//accelerate to a specific value
-						_acceleration.Y = (vert.GetValue(this) - bullet.Acceleration.Y) / Duration;
+						_acceleration.y = (vert.GetValue(this) - bullet.Acceleration.y) / Duration;
 					}
 					break;
 				}

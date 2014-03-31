@@ -3,10 +3,11 @@ using System.Xml;
 
 namespace BulletMLLib
 {
-	public class RepeatNode : BulletMLNode
-	{
-		public RepeatNode() : base(ENodeName.repeat)
-		{
-		}
-	}
+  public class RepeatNode : BulletMLNode
+  {
+    public RepeatNode()
+      : base(ENodeName.repeat)
+    {
+    }
+  }
 }
