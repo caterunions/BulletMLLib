@@ -2,10 +2,27 @@
 
 This is a fork of the [dmanning23's BulletMLLib](https://github.com/dmanning23/BulletMLLib).
 
-We made several modification to make it compatible with Unity 4.3+. It is not up to date as the current version is using `async` and some .NET features that are still not available in Unity (.NET 3.5)  .
-
-Remember this is NOT a Unity plugin. Just a BulletML engine you need to integrate.
+## Unity version
  
-But we also provide a simple and powerful plugin to integrate simply BulletML that you may check: **[BulletML for Unity](http://pixelnest.io/work/bulletml-for-unity/)**. 
+We made several modification to make it compatible with Unity 4.3+:
+
+- Using `UnityEngine` namepsaces
+- Using Vector2 for positions
+- Added an abstract method to `Bullet.cs` to tell the game when the bullet is ready 
+
+
+We also fixed:
+
+- The ``times`` node of the ``repeat`` were evaluated only once, so if you were using a `$rank` or `$rand` it always had the same value during runtime.
+
+It is not up to date as the current version is using `async` and some .NET features that are still not available in Unity (.NET 3.5)  .
+
+## Is this a Unity plugin?
+
+**Disclaimer**: this is **NOT** a Unity plugin. This is a C# engine **compatible** with a Unity project.
+ 
+We provide a simple, powerful and fully documented plugin to integrate BulletML in your game:
+ 
+- **[BulletML for Unity](http://pixelnest.io/work/bulletml-for-unity/)**. 
 
 
