@@ -37,7 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\Externals\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\windowsdevelopmentstandaloneplayer\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
