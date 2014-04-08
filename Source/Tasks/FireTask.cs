@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Diagnostics;
+using UnityEngine;
 
 namespace BulletMLLib
 {
@@ -190,7 +191,7 @@ namespace BulletMLLib
 				if (null != InitialDirectionTask)
 				{
 					//Set the fire direction to the "initial" value
-					float newBulletDirection = InitialDirectionTask.GetNodeValue() * (float)Math.PI / 180.0f;
+					float newBulletDirection = InitialDirectionTask.GetNodeValue() * (float)Mathf.PI / 180.0f;
 					switch (InitialDirectionTask.Node.NodeType)
 					{
 						case ENodeType.absolute:
@@ -225,7 +226,7 @@ namespace BulletMLLib
 			else if (null != SequenceDirectionTask)
 			{
 				//else if there is a sequence node, add the value to the "shoot direction"
-				FireDirection += SequenceDirectionTask.GetNodeValue() * (float)Math.PI / 180.0f;
+				FireDirection += SequenceDirectionTask.GetNodeValue() * (float)Mathf.PI / 180.0f;
 			}
 
 			//Set the speed to shoot the bullet
@@ -268,13 +269,13 @@ namespace BulletMLLib
 			}
 
 			//make sure the direction is between 0 and 359
-			while ((2.0f * Math.PI) <= FireDirection)
+			while ((2.0f * Mathf.PI) <= FireDirection)
 			{
-				FireDirection -= (2.0f * (float)Math.PI);
+				FireDirection -= (2.0f * (float)Mathf.PI);
 			}
 			while (0.0f > FireDirection)
 			{
-				FireDirection += (2.0f * (float)Math.PI);
+				FireDirection += (2.0f * (float)Mathf.PI);
 			}
 
 			//make sure we don't overwrite the initial values if we aren't supposed to

@@ -129,13 +129,13 @@ namespace BulletMLLib
         _direction = value;
 
         //keep the direction between 0-360
-        if (_direction > 2 * Math.PI)
+        if (_direction > 2 * Mathf.PI)
         {
-          _direction -= (float)(2 * Math.PI);
+          _direction -= (float)(2 * Mathf.PI);
         }
         else if (_direction < 0)
         {
-          _direction += (float)(2 * Math.PI);
+          _direction += (float)(2 * Mathf.PI);
         }
       }
     }
@@ -272,8 +272,8 @@ namespace BulletMLLib
       }
 
       //only do this stuff if the bullet isn't done, cuz sin/cosin are expensive
-      X += (Acceleration.x + (float)(Math.Sin(Direction) * (Speed * TimeSpeed))) * Scale;
-      Y += (Acceleration.y + (float)(-Math.Cos(Direction) * (Speed * TimeSpeed))) * Scale;
+      X += (Acceleration.x + (float)(Mathf.Sin(Direction) * (Speed * TimeSpeed))) * Scale;
+      Y += (Acceleration.y + (float)(-Mathf.Cos(Direction) * (Speed * TimeSpeed))) * Scale;
     }
 
     /// <summary>
@@ -289,7 +289,7 @@ namespace BulletMLLib
       //TODO: this function doesn't seem to work... bullets sometimes just spin around in circles?
 
       //get the angle at that dude
-      float val = (float)Math.Atan2((shipPos.x - X), -(shipPos.y - Y));
+      float val = Mathf.Atan2((shipPos.x - X), -(shipPos.y - Y));
       return val;
     }
 

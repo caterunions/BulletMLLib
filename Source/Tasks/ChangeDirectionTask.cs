@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using UnityEngine;
 
 namespace BulletMLLib
 {
@@ -52,7 +53,7 @@ namespace BulletMLLib
 
 			//Get the amount to change direction from the nodes
 			DirectionNode dirNode = Node.GetChild(ENodeName.direction) as DirectionNode;
-			float value = dirNode.GetValue(this) * (float)Math.PI / 180.0f; //also make sure to convert to radians
+			float value = dirNode.GetValue(this) * (float)Mathf.PI / 180.0f; //also make sure to convert to radians
 
 			//How do we want to change direction?
 			ENodeType changeType = dirNode.NodeType;
@@ -88,13 +89,13 @@ namespace BulletMLLib
 			}
 
 			//keep the direction between 0 and 360
-			if (DirectionChange > Math.PI)
+			if (DirectionChange > Mathf.PI)
 			{
-				DirectionChange -= 2 * (float)Math.PI;
+				DirectionChange -= 2 * (float)Mathf.PI;
 			}
-			else if (DirectionChange < -Math.PI)
+			else if (DirectionChange < -Mathf.PI)
 			{
-				DirectionChange += 2 * (float)Math.PI;
+				DirectionChange += 2 * (float)Mathf.PI;
 			}
 
 			//The sequence type of change direction is unaffected by the duration
