@@ -26,8 +26,10 @@ namespace BulletMLLib
     /// <summary>
     /// Create a new bullet.
     /// </summary>
+    /// <param name="source">Bullet requesting a new friend</param>
+    /// <param name="top">Is this bullet the root of a top action?</param>
     /// <returns>A shiny new bullet</returns>
-    Bullet CreateBullet();
+    Bullet CreateBullet(Bullet source, bool top);
 
     #endregion //Methods
   }

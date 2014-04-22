@@ -208,8 +208,8 @@ namespace BulletMLLib
             }
             else
             {
-              //Create a new bullet
-              Bullet newDude = _bulletManager.CreateBullet();
+              //Create a new top bullet
+              Bullet newDude = _bulletManager.CreateBullet(this, true);
 
               //set the position to this dude's position
               newDude.X = this.X;
