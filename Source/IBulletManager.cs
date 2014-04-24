@@ -31,6 +31,13 @@ namespace BulletMLLib
     /// <returns>A shiny new bullet</returns>
     Bullet CreateBullet(Bullet source, bool top);
 
+    /// <summary>
+    /// Raise a trigger
+    /// </summary>
+    /// <param name="source">Bullet requesting an action</param>
+    /// <param name="name">Trigger's name</param>
+    void Trigger(Bullet source, string name);
+
     #endregion //Methods
   }
 }

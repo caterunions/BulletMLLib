@@ -65,6 +65,11 @@ namespace BulletMLLib
     /// </summary>
     protected BulletMLNode Parent { get; private set; }
 
+    /// <summary>
+    /// rasw text from XML
+    /// </summary>
+    public string Text { get; protected set; }
+
     #endregion //Members
 
     #region Methods
@@ -280,8 +285,15 @@ namespace BulletMLLib
           //if the child node is a text node, parse it into this dude
           if (XmlNodeType.Text == childNode.NodeType)
           {
-            //Get the text of the child xml node, but store it in THIS bullet node
-            NodeEquation.Parse(childNode.Value);
+            // Store the original text
+            Text = childNode.Value;
+
+            // Skip the value for triggers
+            if (ENodeName.trigger != Name)
+            {
+              //Get the text of the child xml node, but store it in THIS bullet node
+              NodeEquation.Parse(Text);
+            }
             continue;
           }
           else if (XmlNodeType.Comment == childNode.NodeType)

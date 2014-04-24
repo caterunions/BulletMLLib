@@ -92,6 +92,10 @@ namespace BulletMLLib
           {
             return new ParamNode();
           }
+        case ENodeName.trigger:
+          {
+            return new TriggerNode();
+          }
         case ENodeName.bulletml:
           {
             return new BulletMLNode(ENodeName.bulletml);

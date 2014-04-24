@@ -213,6 +213,12 @@ namespace BulletMLLib
 					ChildTasks.Add(new AccelTask(childNode as AccelNode, this));
 				}
 				break;
+
+        case ENodeName.trigger:
+        {
+          ChildTasks.Add(new TriggerTask(childNode as TriggerNode, this));
+        }
+        break;
 			}
 		}
 

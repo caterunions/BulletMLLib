@@ -22,6 +22,7 @@ namespace BulletMLLib
     direction,
     speed,
     param,
-    bulletml
+    bulletml,
+    trigger
   };
 }
