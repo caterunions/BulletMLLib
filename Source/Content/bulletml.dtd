@@ -21,7 +21,6 @@
 <!ELEMENT repeat (times, (action | actionRef)*)>
 
 <!ELEMENT accel (horizontal?, vertical?, term)>
-<!ATTLIST accel label CDATA #IMPLIED>
 
 <!ELEMENT times (#PCDATA)>
 
@@ -29,7 +28,9 @@
 
 <!ELEMENT wait (#PCDATA)>
 
-<!ELEMENT action (changeDirection | accel | vanish | changeSpeed | repeat | wait | (fire | fireRef) | (action | actionRef))*>
+<!ELEMENT trigger (#PCDATA)>
+
+<!ELEMENT action (changeDirection | accel | vanish | changeSpeed | repeat | wait | trigger | (fire | fireRef) | (action | actionRef))*>
 <!ATTLIST action label CDATA #IMPLIED>
 
 <!ELEMENT vanish (#PCDATA)>
