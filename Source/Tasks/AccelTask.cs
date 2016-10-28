@@ -139,7 +139,7 @@ namespace BulletMLLib
 			bullet.Acceleration += Acceleration;
 
 			//decrement the amount if time left to run and return End when this task is finished
-			Duration -= 1.0f * bullet.TimeSpeed;
+			Duration -= 1.0f * bullet.TimeSpeed * TimeFix.Delta;
 			if (Duration <= 0.0f)
 			{
 				TaskFinished = true;

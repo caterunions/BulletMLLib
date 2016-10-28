@@ -47,7 +47,7 @@ namespace BulletMLLib
 		/// <param name="bullet">The bullet to update this task against.</param>
 		public override ERunStatus Run(Bullet bullet)
 		{
-			Duration -= 1.0f * bullet.TimeSpeed;
+			Duration -= 1.0f * bullet.TimeSpeed * TimeFix.Delta;
 			if (Duration >= 0.0f)
 			{
 				return ERunStatus.Stop;
