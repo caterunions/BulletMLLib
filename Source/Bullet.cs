@@ -272,8 +272,8 @@ namespace BulletMLLib
       }
 
       //only do this stuff if the bullet isn't done, cuz sin/cosin are expensive
-      X += (Acceleration.x + (float)(Mathf.Sin(Direction) * (Speed * TimeSpeed))) * Scale;
-      Y += (Acceleration.y + (float)(-Mathf.Cos(Direction) * (Speed * TimeSpeed))) * Scale;
+      X += (Acceleration.x + (float)(Mathf.Sin(Direction) * (Speed * TimeSpeed))) * Scale * TimeFix.Delta;
+      Y += (Acceleration.y + (float)(-Mathf.Cos(Direction) * (Speed * TimeSpeed))) * Scale * TimeFix.Delta;
     }
 
     /// <summary>
