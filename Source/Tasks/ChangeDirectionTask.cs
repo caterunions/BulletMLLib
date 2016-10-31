@@ -46,16 +46,16 @@ namespace BulletMLLib
 		{
       //set the time length to run this dude
       startDuration = Node.GetChildValue(ENodeName.term, this);
-      Duration = startDuration;
 
       //check for divide by 0
-      if (0.0f == Duration)
-			{
-				Duration = 1.0f;
-			}
+      if (0.0f == startDuration)
+      {
+        startDuration = 1.0f;
+      }
+      Duration = startDuration;
 
-			//Get the amount to change direction from the nodes
-			DirectionNode dirNode = Node.GetChild(ENodeName.direction) as DirectionNode;
+      //Get the amount to change direction from the nodes
+      DirectionNode dirNode = Node.GetChild(ENodeName.direction) as DirectionNode;
 			float value = dirNode.GetValue(this) * (float)Mathf.PI / 180.0f; //also make sure to convert to radians
 
 			//How do we want to change direction?
