@@ -118,10 +118,10 @@ namespace BulletMLLib
 		public override ERunStatus Run(Bullet bullet)
 		{
 			//change the direction of the bullet by the correct amount
-			bullet.Direction += DirectionChange * TimeFix.Delta;
+			bullet.Direction += DirectionChange;
 
 			//decrement the amount if time left to run and return End when this task is finished
-			Duration -= 1.0f * bullet.TimeSpeed * TimeFix.Delta;
+			Duration -= 1.0f * bullet.TimeSpeed;
 			if (Duration <= 0.0f || startDuration <= 1)
 			{
 				TaskFinished = true;
