@@ -50,6 +50,10 @@ namespace BulletMLLib
       {
         startDuration = 1.0f;
       }
+
+      float ratio = TimeFix.Framerate / 60f;
+      startDuration *= ratio;
+
       Duration = startDuration;
 
       switch (Node.GetChild(ENodeName.speed).NodeType)
@@ -84,7 +88,7 @@ namespace BulletMLLib
     {
       bullet.Speed += SpeedChange;
 
-      Duration -= 1.0f * bullet.TimeSpeed * TimeFix.Delta;
+      Duration -= 1.0f * bullet.TimeSpeed;
       if (Duration <= 0.0f || startDuration <= 1)
       {
         TaskFinished = true;
