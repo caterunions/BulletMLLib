@@ -14,14 +14,7 @@ namespace BulletMLLib
     {
       get
       {
-        if (Framerate != 60f)
-        {
-          return Time.deltaTime * 60f;
-        }
-        else
-        {
-          return 1f;
-        }
+        return Time.deltaTime * 60f;
       }
     }
 
