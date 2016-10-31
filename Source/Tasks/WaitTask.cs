@@ -15,6 +15,8 @@ namespace BulletMLLib
 		/// </summary>
 		private float Duration { get; set; }
 
+    private float startDuration;
+
 		#endregion //Members
 
 		#region Methods
@@ -36,8 +38,10 @@ namespace BulletMLLib
 		/// <param name="bullet">Bullet.</param>
 		protected override void SetupTask(Bullet bullet)
 		{
-			Duration = Node.GetValue(this);
-		}
+      startDuration = Node.GetValue(this);
+      Duration = startDuration;
+
+    }
 
 		/// <summary>
 		/// Run this task and all subtasks against a bullet
@@ -48,7 +52,7 @@ namespace BulletMLLib
 		public override ERunStatus Run(Bullet bullet)
 		{
 			Duration -= 1.0f * bullet.TimeSpeed * TimeFix.Delta;
-			if (Duration >= 0.0f)
+			if (Duration >= 0.0f && startDuration > 1f) // 1 frame duration should not be affected by delta time
 			{
 				return ERunStatus.Stop;
 			}

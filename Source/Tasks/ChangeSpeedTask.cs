@@ -19,16 +19,18 @@ namespace BulletMLLib
 		/// </summary>
 		private float Duration { get; set; }
 
-		#endregion //Members
+    private float startDuration;
 
-		#region Methods
+    #endregion //Members
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BulletMLLib.BulletMLTask"/> class.
-		/// </summary>
-		/// <param name="node">Node.</param>
-		/// <param name="owner">Owner.</param>
-		public ChangeSpeedTask(ChangeSpeedNode node, BulletMLTask owner) : base(node, owner)
+    #region Methods
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BulletMLLib.BulletMLTask"/> class.
+    /// </summary>
+    /// <param name="node">Node.</param>
+    /// <param name="owner">Owner.</param>
+    public ChangeSpeedTask(ChangeSpeedNode node, BulletMLTask owner) : base(node, owner)
 		{
 			System.Diagnostics.Debug.Assert(null != Node);
 			System.Diagnostics.Debug.Assert(null != Owner);
@@ -40,11 +42,12 @@ namespace BulletMLLib
 		/// <param name="bullet">Bullet.</param>
 		protected override void SetupTask(Bullet bullet)
 		{
-			//set the length of time to run this dude
-			Duration = Node.GetChildValue(ENodeName.term, this);
+      //set the length of time to run this dude
+      startDuration = Node.GetChildValue(ENodeName.term, this);
+      Duration = startDuration;
 
-			//check for divide by 0
-			if (0.0f == Duration)
+      //check for divide by 0
+      if (0.0f == Duration)
 			{
 				Duration = 1.0f;
 			}
@@ -82,7 +85,7 @@ namespace BulletMLLib
 			bullet.Speed += SpeedChange * TimeFix.Delta;
 
 			Duration -= 1.0f * bullet.TimeSpeed * TimeFix.Delta;
-			if (Duration <= 0.0f)
+			if (Duration <= 0.0f || startDuration <= 1)
 			{
 				TaskFinished = true;
 				return ERunStatus.End;

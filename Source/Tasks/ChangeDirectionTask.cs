@@ -21,6 +21,8 @@ namespace BulletMLLib
 		/// </summary>
 		private float Duration { get; set; }
 
+    private float startDuration;
+
 		#endregion //Members
 
 		#region Methods
@@ -42,11 +44,12 @@ namespace BulletMLLib
 		/// <param name="bullet">Bullet.</param>
 		protected override void SetupTask(Bullet bullet)
 		{
-			//set the time length to run this dude
-			Duration = Node.GetChildValue(ENodeName.term, this);
+      //set the time length to run this dude
+      startDuration = Node.GetChildValue(ENodeName.term, this);
+      Duration = startDuration;
 
-			//check for divide by 0
-			if (0.0f == Duration)
+      //check for divide by 0
+      if (0.0f == Duration)
 			{
 				Duration = 1.0f;
 			}
@@ -113,7 +116,7 @@ namespace BulletMLLib
 
 			//decrement the amount if time left to run and return End when this task is finished
 			Duration -= 1.0f * bullet.TimeSpeed * TimeFix.Delta;
-			if (Duration <= 0.0f)
+			if (Duration <= 0.0f || startDuration <= 1)
 			{
 				TaskFinished = true;
 				return ERunStatus.End;

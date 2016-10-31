@@ -15,10 +15,12 @@ namespace BulletMLLib
 		/// </summary>
 		public float Duration { get; private set; }
 
-		/// <summary>
-		/// The direction to accelerate in 
-		/// </summary>
-		private Vector2 _acceleration = Vector2.zero;
+    private float startDuration;
+
+    /// <summary>
+    /// The direction to accelerate in 
+    /// </summary>
+    private Vector2 _acceleration = Vector2.zero;
 		
 		/// <summary>
 		/// Gets or sets the acceleration.
@@ -57,11 +59,12 @@ namespace BulletMLLib
 		/// <param name="bullet">Bullet.</param>
 		protected override void SetupTask(Bullet bullet)
 		{
-			//set the accelerataion we are gonna add to the bullet
-			Duration = Node.GetChildValue(ENodeName.term, this);
+      //set the accelerataion we are gonna add to the bullet
+      startDuration = Node.GetChildValue(ENodeName.term, this);
+      Duration = startDuration;
 
-			//check for divide by 0
-			if (0.0f == Duration)
+      //check for divide by 0
+      if (0.0f == Duration)
 			{
 				Duration = 1.0f;
 			}
@@ -140,7 +143,7 @@ namespace BulletMLLib
 
 			//decrement the amount if time left to run and return End when this task is finished
 			Duration -= 1.0f * bullet.TimeSpeed * TimeFix.Delta;
-			if (Duration <= 0.0f)
+			if (Duration <= 0.0f || startDuration <= 1)
 			{
 				TaskFinished = true;
 				return ERunStatus.End;
