@@ -55,7 +55,7 @@ namespace BulletMLLib
       }
 
       // Remove the 60 FPS limit (or at least try, ChangeDirection is very, very sensitive to frame variation)
-      float ratio = Application.targetFrameRate / 60f;
+      float ratio = TimeFix.Framerate / 60f;
 
       startDuration *= ratio;
 

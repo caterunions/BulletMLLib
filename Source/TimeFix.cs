@@ -14,7 +14,33 @@ namespace BulletMLLib
     {
       get
       {
-        return Time.deltaTime * 60f;
+        if (Framerate != 60f)
+        {
+          return Time.deltaTime * 60f;
+        }
+        else
+        {
+          return 1f;
+        }
+      }
+    }
+
+    public static float Framerate
+    {
+      get
+      {
+        if (QualitySettings.vSyncCount == 0)
+        {
+          return Application.targetFrameRate;
+        }
+        else
+        {
+          if (Screen.currentResolution.refreshRate > 0)
+          {
+            return Screen.currentResolution.refreshRate;
+          }
+          return 60f;
+        }
       }
     }
   }
