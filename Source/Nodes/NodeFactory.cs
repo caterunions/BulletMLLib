@@ -100,6 +100,10 @@ namespace BulletMLLib
           {
             return new BulletMLNode(ENodeName.bulletml);
           }
+        case ENodeName.lifetime:
+          {
+            return new LifetimeNode();
+          }
         default:
           {
             throw new Exception("Unhandled type of ENodeName: \"" + nodeType.ToString() + "\"");

@@ -23,6 +23,7 @@ namespace BulletMLLib
     speed,
     param,
     bulletml,
-    trigger
+    trigger,
+    lifetime
   };
 }
