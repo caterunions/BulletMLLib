@@ -10,7 +10,7 @@ namespace BulletMLLib
   /// This is the bullet class that outside assemblies will interact with.
   /// Just inherit from this class and override the abstract functions!
   /// </summary>
-  public abstract class Bullet
+  public class Bullet
   {
     #region Members
 
@@ -85,7 +85,7 @@ namespace BulletMLLib
     /// measured in pixels from upper left
     /// </summary>
     /// <value>The horizontrla position.</value>
-    public abstract float X
+    public float X
     {
       get;
       set;
@@ -96,7 +96,7 @@ namespace BulletMLLib
     /// measured in pixels from upper left
     /// </summary>
     /// <value>The vertical position.</value>
-    public abstract float Y
+    public float Y
     {
       get;
       set;
@@ -258,7 +258,7 @@ namespace BulletMLLib
     /// <summary>
     /// After the creation, initialize the bullet with its data (like the correct sprite, etc)
     /// </summary>
-    public abstract void InitBullet();
+    //public abstract void InitBullet();
 
     /// <summary>
     /// Update this bullet.  Called once every 1/60th of a second during runtime

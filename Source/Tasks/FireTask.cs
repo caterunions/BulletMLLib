@@ -317,7 +317,7 @@ namespace BulletMLLib
       newBullet.InitNode(myFireNode.BulletDescriptionNode);
 
       // Let the bullet handler initialize the bullet ingame data
-      newBullet.InitBullet();
+      //newBullet.InitBullet();
 
 			//set the owner of all the top level tasks for the new bullet to this dude
 			foreach (BulletMLTask task in newBullet.Tasks)
