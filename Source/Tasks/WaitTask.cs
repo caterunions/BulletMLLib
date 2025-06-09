@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 
+using UnityEngine;
+
 namespace BulletMLLib
 {
 	/// <summary>
@@ -38,7 +40,7 @@ namespace BulletMLLib
 		/// <param name="bullet">Bullet.</param>
 		protected override void SetupTask(Bullet bullet)
 		{
-      startDuration = Node.GetValue(this);
+      startDuration = Node.GetValue(this) / 1000;
       Duration = startDuration;
 
     }
@@ -51,8 +53,8 @@ namespace BulletMLLib
 		/// <param name="bullet">The bullet to update this task against.</param>
 		public override ERunStatus Run(Bullet bullet)
 		{
-			Duration -= 1.0f * bullet.TimeSpeed * TimeFix.Delta;
-			if (Duration >= 0.0f && startDuration > 1f) // 1 frame duration should not be affected by delta time
+			Duration -= bullet.TimeSpeed * Time.deltaTime;
+			if (Duration >= 0.0f) // 1 frame duration should not be affected by delta time
 			{
 				return ERunStatus.Stop;
 			}

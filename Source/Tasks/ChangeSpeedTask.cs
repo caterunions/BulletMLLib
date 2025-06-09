@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 
+using UnityEngine;
+
 namespace BulletMLLib
 {
   /// <summary>
@@ -43,16 +45,16 @@ namespace BulletMLLib
     protected override void SetupTask(Bullet bullet)
     {
       //set the length of time to run this dude
-      startDuration = Node.GetChildValue(ENodeName.term, this);
+      startDuration = Node.GetChildValue(ENodeName.term, this) / 1000;
 
       //check for divide by 0
       if (0.0f == startDuration)
       {
-        startDuration = 1.0f;
+        startDuration = Time.deltaTime;
       }
 
-      float ratio = TimeFix.Framerate / 60f;
-      startDuration *= ratio;
+      //float ratio = TimeFix.Framerate / 60f;
+      //startDuration *= ratio;
 
       Duration = startDuration;
 
@@ -66,13 +68,13 @@ namespace BulletMLLib
 
         case ENodeType.relative:
           {
-            SpeedChange = Node.GetChildValue(ENodeName.speed, this) / Duration;
+            SpeedChange = Node.GetChildValue(ENodeName.speed, this);
           }
           break;
 
         default:
           {
-            SpeedChange = (Node.GetChildValue(ENodeName.speed, this) - bullet.Speed) / Duration;
+            SpeedChange = (Node.GetChildValue(ENodeName.speed, this) - bullet.Speed);
           }
           break;
       }
@@ -86,10 +88,10 @@ namespace BulletMLLib
     /// <param name="bullet">The bullet to update this task against.</param>
     public override ERunStatus Run(Bullet bullet)
     {
-      bullet.Speed += SpeedChange;
+      bullet.Speed += SpeedChange / (startDuration / Time.deltaTime);
 
       Duration -= 1.0f * bullet.TimeSpeed;
-      if (Duration <= 0.0f || startDuration <= 1)
+      if (Duration <= 0.0f)
       {
         TaskFinished = true;
         return ERunStatus.End;
