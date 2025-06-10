@@ -24,6 +24,7 @@ namespace BulletMLLib
     param,
     bulletml,
     trigger,
-    lifetime
+    lifetime,
+	elem
   };
 }
