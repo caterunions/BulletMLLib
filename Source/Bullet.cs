@@ -19,6 +19,8 @@ namespace BulletMLLib
 		/// </summary>
 		private float _direction;
 
+		public ElementType ElementType { get; private set; }
+
 		/// <summary>
 		/// A bullet manager that manages this bullet.
 		/// </summary>

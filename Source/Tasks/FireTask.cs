@@ -1,7 +1,10 @@
 ﻿
 using System;
 using System.Diagnostics;
+using System.Linq;
+
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace BulletMLLib
 {
@@ -23,6 +26,8 @@ namespace BulletMLLib
 		/// </summary>
 		/// <value>The fire speed.</value>
 		public float FireSpeed { get; private set; }
+
+		public ElementType ElementType { get; private set; }
 
 		/// <summary>
 		/// The number of times init has been called on this task
@@ -115,6 +120,8 @@ namespace BulletMLLib
 			//setup all the speed nodes
 			GetSpeedNodes(this);
 			GetSpeedNodes(BulletRefTask);
+
+			GetElemNode(this);
 		}
 
 		/// <summary>
@@ -399,6 +406,31 @@ namespace BulletMLLib
 						//store it in the initial speed node
 						InitialSpeedTask = new SetSpeedTask(spdNode as SpeedNode, taskToCheck);
 					}
+				}
+			}
+		}
+
+		private void GetElemNode(BulletMLTask taskToCheck)
+		{
+			if (taskToCheck == null) return;
+
+			ElemNode elemNode = taskToCheck.Node.GetChild(ENodeName.elem) as ElemNode;
+			if(elemNode == null)
+			{
+				//it didnt work GO STUPID
+				FireTask fireTask = taskToCheck as FireTask;
+				if (fireTask != null)
+				{
+					elemNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as ElemNode != null) as ElemNode;
+				}
+			}
+
+			if (elemNode != null)
+			{
+				bool parsed = Enum.TryParse(typeof(ElementType), elemNode.Text, true, out object result);
+				if(parsed)
+				{
+					ElementType = (ElementType)result;
 				}
 			}
 		}
