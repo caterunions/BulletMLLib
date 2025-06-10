@@ -14,12 +14,13 @@ namespace BulletMLLib
 	{
 		#region Members
 
+		public event Action<Bullet> OnFinishSetup;
 		/// <summary>
 		/// The direction this bullet is travelling.  Measured as an angle in radians
 		/// </summary>
 		private float _direction;
 
-		public ElementType ElementType { get; private set; }
+		public ElementType ElementType { get; set; }
 
 		/// <summary>
 		/// A bullet manager that manages this bullet.
@@ -255,6 +256,8 @@ namespace BulletMLLib
 			task.InitTask(this);
 
 			Tasks.Add(task);
+
+			OnFinishSetup?.Invoke(this);
 		}
 
 		/// <summary>

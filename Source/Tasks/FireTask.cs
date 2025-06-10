@@ -27,7 +27,7 @@ namespace BulletMLLib
 		/// <value>The fire speed.</value>
 		public float FireSpeed { get; private set; }
 
-		public ElementType ElementType { get; private set; }
+		public ElementType ElementType { get; private set; } = ElementType.Neutral;
 
 		/// <summary>
 		/// The number of times init has been called on this task
@@ -316,6 +316,8 @@ namespace BulletMLLib
 
 			//set teh speed of the new bullet
 			newBullet.Speed = FireSpeed;
+
+			newBullet.ElementType = ElementType;
 
 			//initialize the bullet with the bullet node stored in the Fire node
 			FireNode myFireNode = Node as FireNode;
