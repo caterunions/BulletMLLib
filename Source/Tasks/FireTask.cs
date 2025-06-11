@@ -29,6 +29,10 @@ namespace BulletMLLib
 
 		public ElementType ElementType { get; private set; } = ElementType.Neutral;
 
+		public float Lifetime { get; private set; }
+
+		protected BulletMLEquation NodeEquation = new BulletMLEquation();
+
 		/// <summary>
 		/// The number of times init has been called on this task
 		/// </summary>
@@ -122,6 +126,8 @@ namespace BulletMLLib
 			GetSpeedNodes(BulletRefTask);
 
 			GetElemNode(this);
+
+			GetLifetimeNode(this);
 		}
 
 		/// <summary>
@@ -319,6 +325,8 @@ namespace BulletMLLib
 
 			newBullet.ElementType = ElementType;
 
+			newBullet.Lifetime = Lifetime;
+
 			//initialize the bullet with the bullet node stored in the Fire node
 			FireNode myFireNode = Node as FireNode;
 			System.Diagnostics.Debug.Assert(null != myFireNode);
@@ -434,6 +442,28 @@ namespace BulletMLLib
 				{
 					ElementType = (ElementType)result;
 				}
+			}
+		}
+
+		private void GetLifetimeNode(BulletMLTask taskToCheck)
+		{
+			if (taskToCheck == null) return;
+
+			LifetimeNode lifetimeNode = taskToCheck.Node.GetChild(ENodeName.lifetime) as LifetimeNode;
+			if (lifetimeNode == null)
+			{
+				//it didnt work GO STUPID
+				FireTask fireTask = taskToCheck as FireTask;
+				if (fireTask != null)
+				{
+					lifetimeNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as LifetimeNode != null) as LifetimeNode;
+				}
+			}
+
+			if (lifetimeNode != null)
+			{
+				NodeEquation.Parse(lifetimeNode.Text);
+				Lifetime = NodeEquation.Solve(null);
 			}
 		}
 

@@ -33,6 +33,8 @@ namespace BulletMLLib
 		/// </summary>
 		public BulletMLNode MyNode { get; private set; }
 
+		public float Lifetime { get; set; } = 0;
+
 		/// <summary>
 		/// How fast time moves in this game. It is directly linked to Time.scale.
 		/// Can be used to do slowdown, speedup, etc.
