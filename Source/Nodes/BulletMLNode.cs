@@ -289,7 +289,7 @@ namespace BulletMLLib
             Text = childNode.Value;
 
             // Skip the value for triggers
-            if (ENodeName.trigger != Name)
+            if (ENodeName.trigger != Name && Name != ENodeName.offset)
             {
               //Get the text of the child xml node, but store it in THIS bullet node
               NodeEquation.Parse(Text);

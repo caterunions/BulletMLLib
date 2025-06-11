@@ -108,6 +108,10 @@ namespace BulletMLLib
 					{
 						return new ElemNode();
 					}
+				case ENodeName.offset:
+					{
+						return new OffsetNode();
+					}
 				default:
 					{
 						throw new Exception("Unhandled type of ENodeName: \"" + nodeType.ToString() + "\"");

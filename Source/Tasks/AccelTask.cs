@@ -38,6 +38,8 @@ namespace BulletMLLib
 			}
 		}
 
+		private Vector2 _startAcceleration;
+
 		#endregion //Members
 
 		#region Methods
@@ -61,6 +63,8 @@ namespace BulletMLLib
 		{
 			//set the accelerataion we are gonna add to the bullet
 			startDuration = Node.GetChildValue(ENodeName.term, this) / 1000;
+
+			_startAcceleration = bullet.Acceleration;
 
 			//check for divide by 0
 			if (0.0f == startDuration)
@@ -86,14 +90,14 @@ namespace BulletMLLib
 					case ENodeType.relative:
 						{
 							//accelerate by a certain amount
-							_acceleration.x = horiz.GetValue(this) / Duration;
+							_acceleration.x = horiz.GetValue(this);
 						}
 						break;
 
 					default:
 						{
 							//accelerate to a specific value
-							_acceleration.x = (horiz.GetValue(this) - bullet.Acceleration.x) / Duration;
+							_acceleration.x = (horiz.GetValue(this) - bullet.Acceleration.x);
 						}
 						break;
 				}
@@ -139,7 +143,7 @@ namespace BulletMLLib
 		public override ERunStatus Run(Bullet bullet)
 		{
 			//Add the acceleration to the bullet
-			bullet.Acceleration += Acceleration / (startDuration / Time.deltaTime);
+			bullet.Acceleration = Vector2.Lerp(Acceleration, _startAcceleration, startDuration - Duration);
 
 			//decrement the amount if time left to run and return End when this task is finished
 			Duration -= bullet.TimeSpeed * Time.deltaTime;

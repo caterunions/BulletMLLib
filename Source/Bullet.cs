@@ -20,7 +20,7 @@ namespace BulletMLLib
 		/// </summary>
 		private float _direction;
 
-		public ElementType ElementType { get; set; }
+		public ElementType ElementType { get; set; } = ElementType.Neutral;
 
 		/// <summary>
 		/// A bullet manager that manages this bullet.

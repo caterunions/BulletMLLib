@@ -25,6 +25,7 @@ namespace BulletMLLib
     bulletml,
     trigger,
     lifetime,
-	elem
+	elem,
+	offset
   };
 }

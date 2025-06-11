@@ -33,6 +33,10 @@ namespace BulletMLLib
 
 		protected BulletMLEquation NodeEquation = new BulletMLEquation();
 
+		public float StoredXOffset { get; private set; } = 0;
+		public float StoredYOffset { get; private set; } = 0;
+		public bool AbsoluteOffset = false;
+
 		/// <summary>
 		/// The number of times init has been called on this task
 		/// </summary>
@@ -128,6 +132,8 @@ namespace BulletMLLib
 			GetElemNode(this);
 
 			GetLifetimeNode(this);
+
+			GetOffsetNode(this);
 		}
 
 		/// <summary>
@@ -313,9 +319,16 @@ namespace BulletMLLib
 				return ERunStatus.End;
 			}
 
-			//set the location of the new bullet
-			newBullet.X = bullet.X;
-			newBullet.Y = bullet.Y;
+			if(AbsoluteOffset)
+			{
+				newBullet.X = StoredXOffset; 
+				newBullet.Y = StoredYOffset;
+			}
+			else
+			{
+				newBullet.X = bullet.X + StoredXOffset; 
+				newBullet.Y = bullet.Y + StoredYOffset;
+			}
 
 			//set the direction of the new bullet
 			newBullet.Direction = FireDirection;
@@ -464,6 +477,36 @@ namespace BulletMLLib
 			{
 				NodeEquation.Parse(lifetimeNode.Text);
 				Lifetime = NodeEquation.Solve(null);
+			}
+		}
+
+		private void GetOffsetNode(BulletMLTask taskToCheck)
+		{
+			if(taskToCheck == null) return;
+
+			OffsetNode offsetNode = taskToCheck.Node.GetChild(ENodeName.offset) as OffsetNode;
+			if(offsetNode == null)
+			{
+				//it didnt work GO STUPID
+				FireTask fireTask = taskToCheck as FireTask;
+				if (fireTask != null)
+				{
+					offsetNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as OffsetNode != null) as OffsetNode;
+				}
+			}
+
+			if(offsetNode != null)
+			{
+				string[] split = offsetNode.Text.Split(",");
+				NodeEquation.Parse(split[0]);
+				StoredXOffset = NodeEquation.Solve(null);
+				NodeEquation.Parse(split[1]);
+				StoredYOffset = NodeEquation.Solve(null);
+
+				if(offsetNode.NodeType == ENodeType.absolute)
+				{
+					AbsoluteOffset = true;
+				}
 			}
 		}
 

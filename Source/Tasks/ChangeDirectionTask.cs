@@ -16,6 +16,7 @@ namespace BulletMLLib
 		/// The amount to change driection every frame
 		/// </summary>
 		private float DirectionChange;
+		private float _startDirection;
 
 		/// <summary>
 		/// How long to run this task... measured in frames
@@ -53,6 +54,8 @@ namespace BulletMLLib
 			{
 				startDuration = Time.deltaTime;
 			}
+
+			_startDirection = bullet.Direction;
 
 			// Remove the 60 FPS limit (or at least try, ChangeDirection is very, very sensitive to frame variation)
 			//float ratio = TimeFix.Framerate / 60f;
@@ -97,7 +100,7 @@ namespace BulletMLLib
 					}
 					break;
 			}
-
+			
 			//keep the direction between 0 and 360
 			if (DirectionChange > Mathf.PI)
 			{
@@ -119,7 +122,7 @@ namespace BulletMLLib
 		public override ERunStatus Run(Bullet bullet)
 		{
 			//change the direction of the bullet by the correct amount
-			bullet.Direction += DirectionChange / (startDuration / Time.deltaTime);
+			bullet.Direction = Mathf.Lerp(DirectionChange, _startDirection, startDuration - Duration);
 
 			//decrement the amount if time left to run and return End when this task is finished
 			Duration -= Time.deltaTime * bullet.TimeSpeed;
