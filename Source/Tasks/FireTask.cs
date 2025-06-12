@@ -37,6 +37,9 @@ namespace BulletMLLib
 		public float StoredXOffset { get; private set; } = 0;
 		public float StoredYOffset { get; private set; } = 0;
 		public bool AbsoluteOffset = false;
+		public float ContinuousRotation { get; private set; } = 0;
+
+		public string Visuals { get; private set; } = "";
 
 		/// <summary>
 		/// The number of times init has been called on this task
@@ -137,6 +140,10 @@ namespace BulletMLLib
 			GetOffsetNode(this);
 
 			GetFaceDirectionNode(this);
+
+			GetContinuousRotationNode(this);
+
+			GetVisualsNode(this);
 		}
 
 		/// <summary>
@@ -345,6 +352,10 @@ namespace BulletMLLib
 
 			newBullet.FaceDirection = FaceDirection;
 
+			newBullet.ContinousRotation = ContinuousRotation;
+
+			newBullet.Visuals = Visuals;
+
 			//initialize the bullet with the bullet node stored in the Fire node
 			FireNode myFireNode = Node as FireNode;
 			System.Diagnostics.Debug.Assert(null != myFireNode);
@@ -533,6 +544,49 @@ namespace BulletMLLib
 			if(dirNode != null)
 			{
 				FaceDirection = true;
+			}
+		}
+
+		private void GetContinuousRotationNode(BulletMLTask taskToCheck)
+		{
+			if (taskToCheck == null) return;
+
+			ContinuousRotationNode rotNode = taskToCheck.Node.GetChild(ENodeName.continuousRotation) as ContinuousRotationNode;
+			if (rotNode == null)
+			{
+				//it didnt work GO STUPID
+				FireTask fireTask = taskToCheck as FireTask;
+				if (fireTask != null)
+				{
+					rotNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as ContinuousRotationNode != null) as ContinuousRotationNode;
+				}
+			}
+
+			if (rotNode != null)
+			{
+				NodeEquation.Parse(rotNode.Text);
+				ContinuousRotation = NodeEquation.Solve(null);
+			}
+		}
+
+		private void GetVisualsNode(BulletMLTask taskToCheck)
+		{
+			if (taskToCheck == null) return;
+
+			VisualsNode visNode = taskToCheck.Node.GetChild(ENodeName.visuals) as VisualsNode;
+			if (visNode == null)
+			{
+				//it didnt work GO STUPID
+				FireTask fireTask = taskToCheck as FireTask;
+				if (fireTask != null)
+				{
+					visNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as VisualsNode != null) as VisualsNode;
+				}
+			}
+
+			if (visNode != null)
+			{
+				Visuals = visNode.Text;
 			}
 		}
 

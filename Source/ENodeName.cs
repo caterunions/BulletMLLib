@@ -27,6 +27,8 @@ namespace BulletMLLib
 		lifetime,
 		elem,
 		offset,
-		faceHeading
+		faceHeading,
+		continuousRotation,
+		visuals
 	};
 }

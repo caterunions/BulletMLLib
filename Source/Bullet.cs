@@ -82,6 +82,8 @@ namespace BulletMLLib
 
 		public bool Top { get; private set; }
 		public bool FaceDirection { get; set; }
+		public float ContinousRotation { get; set; }
+		public string Visuals { get; set; }
 
 		/// <summary>
 		/// A list of tasks that will define this bullets behavior

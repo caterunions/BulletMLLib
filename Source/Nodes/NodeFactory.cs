@@ -116,6 +116,14 @@ namespace BulletMLLib
 					{
 						return new FaceHeadingNode();
 					}
+				case ENodeName.continuousRotation:
+					{
+						return new ContinuousRotationNode();
+					}
+				case ENodeName.visuals:
+					{
+						return new VisualsNode();
+					}
 				default:
 					{
 						throw new Exception("Unhandled type of ENodeName: \"" + nodeType.ToString() + "\"");
