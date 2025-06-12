@@ -58,7 +58,7 @@ namespace BulletMLLib
 			//float ratio = TimeFix.Framerate / 60f;
 			//startDuration *= ratio;
 
-			Duration = startDuration;
+			Duration = 0;
 
 			switch (Node.GetChild(ENodeName.speed).NodeType)
 			{
@@ -70,13 +70,13 @@ namespace BulletMLLib
 
 				case ENodeType.relative:
 					{
-						SpeedChange = Node.GetChildValue(ENodeName.speed, this);
+						SpeedChange = Node.GetChildValue(ENodeName.speed, this) - bullet.Speed;
 					}
 					break;
 
 				default:
 					{
-						SpeedChange = (Node.GetChildValue(ENodeName.speed, this) - bullet.Speed);
+						SpeedChange = (Node.GetChildValue(ENodeName.speed, this));
 					}
 					break;
 			}
@@ -90,9 +90,9 @@ namespace BulletMLLib
 		/// <param name="bullet">The bullet to update this task against.</param>
 		public override ERunStatus Run(Bullet bullet)
 		{
-			bullet.Speed = Mathf.Lerp(SpeedChange, _startSpeed, startDuration - Duration);
+			bullet.Speed = Mathf.Lerp(SpeedChange, _startSpeed, (startDuration - Duration) / startDuration);
 
-			Duration -= 1.0f * bullet.TimeSpeed;
+			Duration += Time.deltaTime * bullet.TimeSpeed;
 			if (Duration <= 0.0f)
 			{
 				TaskFinished = true;

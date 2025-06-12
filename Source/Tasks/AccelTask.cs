@@ -143,7 +143,7 @@ namespace BulletMLLib
 		public override ERunStatus Run(Bullet bullet)
 		{
 			//Add the acceleration to the bullet
-			bullet.Acceleration = Vector2.Lerp(Acceleration, _startAcceleration, startDuration - Duration);
+			bullet.Acceleration = Vector2.Lerp(Acceleration, _startAcceleration, (startDuration - Duration) / startDuration);
 
 			//decrement the amount if time left to run and return End when this task is finished
 			Duration -= bullet.TimeSpeed * Time.deltaTime;

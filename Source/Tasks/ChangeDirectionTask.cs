@@ -62,7 +62,7 @@ namespace BulletMLLib
 
 			//startDuration *= ratio;
 
-			Duration = startDuration;
+			Duration = 0;
 
 			//Get the amount to change direction from the nodes
 			DirectionNode dirNode = Node.GetChild(ENodeName.direction) as DirectionNode;
@@ -122,10 +122,10 @@ namespace BulletMLLib
 		public override ERunStatus Run(Bullet bullet)
 		{
 			//change the direction of the bullet by the correct amount
-			bullet.Direction = Mathf.Lerp(DirectionChange, _startDirection, startDuration - Duration);
+			bullet.Direction = Mathf.Lerp(DirectionChange, _startDirection, (startDuration - Duration) / startDuration);
 
 			//decrement the amount if time left to run and return End when this task is finished
-			Duration -= Time.deltaTime * bullet.TimeSpeed;
+			Duration += Time.deltaTime * bullet.TimeSpeed;
 			if (Duration <= 0.0f)
 			{
 				TaskFinished = true;
