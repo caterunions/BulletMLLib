@@ -80,6 +80,9 @@ namespace BulletMLLib
 		/// <value>The speed, in pixels/frame</value>
 		public float Speed { get; set; }
 
+		public bool Top { get; private set; }
+		public bool FaceDirection { get; set; }
+
 		/// <summary>
 		/// A list of tasks that will define this bullets behavior
 		/// </summary>
@@ -165,7 +168,7 @@ namespace BulletMLLib
 		/// Initializes a new instance of the <see cref="BulletMLLib.Bullet"/> class.
 		/// </summary>
 		/// <param name="myBulletManager">My bullet manager.</param>
-		public Bullet(IBulletManager myBulletManager)
+		public Bullet(IBulletManager myBulletManager, bool top)
 		{
 			//grba the bullet manager for this dude
 			System.Diagnostics.Debug.Assert(null != myBulletManager);
@@ -174,6 +177,7 @@ namespace BulletMLLib
 			Acceleration = Vector2.zero;
 
 			Tasks = new List<BulletMLTask>();
+			Top = top;
 
 			//init these to the default
 			TimeSpeed = 1.0f;

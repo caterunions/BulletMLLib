@@ -20,6 +20,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <value>The fire direction.</value>
 		public float FireDirection { get; private set; }
+		public bool FaceDirection { get; private set; } = false;
 
 		/// <summary>
 		/// The speed that this task will fire a bullet.
@@ -134,6 +135,8 @@ namespace BulletMLLib
 			GetLifetimeNode(this);
 
 			GetOffsetNode(this);
+
+			GetFaceDirectionNode(this);
 		}
 
 		/// <summary>
@@ -340,6 +343,8 @@ namespace BulletMLLib
 
 			newBullet.Lifetime = Lifetime;
 
+			newBullet.FaceDirection = FaceDirection;
+
 			//initialize the bullet with the bullet node stored in the Fire node
 			FireNode myFireNode = Node as FireNode;
 			System.Diagnostics.Debug.Assert(null != myFireNode);
@@ -507,6 +512,27 @@ namespace BulletMLLib
 				{
 					AbsoluteOffset = true;
 				}
+			}
+		}
+
+		private void GetFaceDirectionNode(BulletMLTask taskToCheck)
+		{
+			if (taskToCheck == null) return;
+
+			FaceHeadingNode dirNode = taskToCheck.Node.GetChild(ENodeName.faceHeading) as FaceHeadingNode;
+			if (dirNode == null)
+			{
+				//it didnt work GO STUPID
+				FireTask fireTask = taskToCheck as FireTask;
+				if (fireTask != null)
+				{
+					dirNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as FaceHeadingNode != null) as FaceHeadingNode;
+				}
+			}
+
+			if(dirNode != null)
+			{
+				FaceDirection = true;
 			}
 		}
 

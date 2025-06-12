@@ -112,6 +112,10 @@ namespace BulletMLLib
 					{
 						return new OffsetNode();
 					}
+				case ENodeName.faceHeading:
+					{
+						return new FaceHeadingNode();
+					}
 				default:
 					{
 						throw new Exception("Unhandled type of ENodeName: \"" + nodeType.ToString() + "\"");
