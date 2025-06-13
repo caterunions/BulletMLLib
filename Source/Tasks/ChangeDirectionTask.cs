@@ -82,14 +82,14 @@ namespace BulletMLLib
 				case ENodeType.absolute:
 					{
 						//We are going to go in the direction we are given, regardless of where we are pointing right now
-						DirectionChange = value - bullet.Direction;
+						DirectionChange = value;
 					}
 					break;
 
 				case ENodeType.relative:
 					{
 						//The direction change will be relative to our current direction
-						DirectionChange = value;
+						DirectionChange = value + bullet.Direction;
 					}
 					break;
 
@@ -111,6 +111,7 @@ namespace BulletMLLib
 				DirectionChange += 2 * (float)Mathf.PI;
 			}
 
+
 			//The sequence type of change direction is unaffected by the duration
 			if (changeType != ENodeType.sequence)
 			{
@@ -122,7 +123,7 @@ namespace BulletMLLib
 		public override ERunStatus Run(Bullet bullet)
 		{
 			//change the direction of the bullet by the correct amount
-			bullet.Direction = Mathf.Lerp(DirectionChange, _startDirection, (startDuration - Duration) / startDuration);
+			bullet.Direction = Mathf.LerpAngle(_startDirection * Mathf.Rad2Deg, DirectionChange * Mathf.Rad2Deg, 1 - ((startDuration - Duration) / startDuration)) * Mathf.Deg2Rad;
 
 			//decrement the amount if time left to run and return End when this task is finished
 			Duration += Time.deltaTime * bullet.TimeSpeed;
