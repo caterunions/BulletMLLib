@@ -155,6 +155,30 @@ namespace BulletMLLib
 			}
 		}
 
+		private float _visualDirection;
+
+		public float VisualDirection
+		{
+			get
+			{
+				return _visualDirection;
+			}
+			set
+			{
+				_visualDirection = value;
+
+				//keep the direction between 0-360
+				if (_visualDirection > 2 * Mathf.PI)
+				{
+					_visualDirection -= (float)(2 * Mathf.PI);
+				}
+				else if (_visualDirection < 0)
+				{
+					_visualDirection += (float)(2 * Mathf.PI);
+				}
+			}
+		}
+
 		/// <summary>
 		/// Convenience property to get teh label of a bullet.
 		/// </summary>
@@ -293,6 +317,8 @@ namespace BulletMLLib
 			X += (Acceleration.x + (float)(Mathf.Sin(Direction) * (Speed * TimeSpeed))) * Scale * Time.deltaTime;
 			Y += (Acceleration.y + (float)(-Mathf.Cos(Direction) * (Speed * TimeSpeed))) * Scale * Time.deltaTime;
 
+			VisualDirection = Direction;
+
 			if(Amplitude != 0)
 			{
 				float sine = Mathf.Sin(_timeAlive * Mathf.PI * Frequency) * Amplitude;
@@ -307,6 +333,10 @@ namespace BulletMLLib
 
 				X += vec.x;
 				Y += vec.y;
+
+				float visAngle = Mathf.Cos(_timeAlive * Mathf.PI * Frequency);
+
+				VisualDirection -= visAngle;
 			}
 
 			_timeAlive += Time.deltaTime;

@@ -3,6 +3,8 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
+using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -374,6 +376,7 @@ namespace BulletMLLib
 			{
 				newBullet.Direction = FireDirection;
 			}
+			newBullet.VisualDirection = newBullet.Direction;
 
 			//set teh speed of the new bullet
 			newBullet.Speed = FireSpeed;
