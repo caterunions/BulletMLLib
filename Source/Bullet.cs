@@ -302,7 +302,9 @@ namespace BulletMLLib
 			//TODO: this function doesn't seem to work... bullets sometimes just spin around in circles?
 
 			//get the angle at that dude
-			float val = Mathf.Atan2((shipPos.x - X), -(shipPos.y - Y));
+			Vector2 aimDir = new Vector2(X, Y) - shipPos;
+			float val = Mathf.Atan2(aimDir.y, aimDir.x);
+			val -= Mathf.PI / 2;
 			return val;
 		}
 

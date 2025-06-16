@@ -17,6 +17,8 @@ namespace BulletMLLib
 		/// </summary>
 		private float DirectionChange;
 		private float _startDirection;
+		private bool _aim = false;
+		private float _value;
 
 		/// <summary>
 		/// How long to run this task... measured in frames
@@ -66,7 +68,7 @@ namespace BulletMLLib
 
 			//Get the amount to change direction from the nodes
 			DirectionNode dirNode = Node.GetChild(ENodeName.direction) as DirectionNode;
-			float value = dirNode.GetValue(this) * (float)Mathf.PI / 180.0f; //also make sure to convert to radians
+			_value = dirNode.GetValue(this) * (float)Mathf.PI / 180.0f; //also make sure to convert to radians
 
 			//How do we want to change direction?
 			ENodeType changeType = dirNode.NodeType;
@@ -75,28 +77,29 @@ namespace BulletMLLib
 				case ENodeType.sequence:
 					{
 						//We are going to add this amount to the direction every frame
-						DirectionChange = value;
+						DirectionChange = _value;
 					}
 					break;
 
 				case ENodeType.absolute:
 					{
 						//We are going to go in the direction we are given, regardless of where we are pointing right now
-						DirectionChange = value;
+						DirectionChange = _value;
 					}
 					break;
 
 				case ENodeType.relative:
 					{
 						//The direction change will be relative to our current direction
-						DirectionChange = value + bullet.Direction;
+						DirectionChange = _value + bullet.Direction;
 					}
 					break;
 
 				default:
 					{
 						//the direction change is to aim at the enemy
-						DirectionChange = ((value + bullet.GetAimDir()) - bullet.Direction);
+						DirectionChange = _value + bullet.GetAimDir();
+						_aim = true;
 					}
 					break;
 			}
@@ -122,12 +125,20 @@ namespace BulletMLLib
 
 		public override ERunStatus Run(Bullet bullet)
 		{
-			//change the direction of the bullet by the correct amount
-			bullet.Direction = Mathf.LerpAngle(_startDirection * Mathf.Rad2Deg, DirectionChange * Mathf.Rad2Deg, 1 - ((startDuration - Duration) / startDuration)) * Mathf.Deg2Rad;
+			if(_aim)
+			{
+				DirectionChange = _value + bullet.GetAimDir();
+				bullet.Direction = DirectionChange;
+			}
+			else
+			{
+				//change the direction of the bullet by the correct amount
+				bullet.Direction = Mathf.LerpAngle(_startDirection * Mathf.Rad2Deg, DirectionChange * Mathf.Rad2Deg, 1 - ((startDuration - Duration) / startDuration)) * Mathf.Deg2Rad;
+			}
 
 			//decrement the amount if time left to run and return End when this task is finished
 			Duration += Time.deltaTime * bullet.TimeSpeed;
-			if (Duration <= 0.0f)
+			if (Duration >= startDuration)
 			{
 				TaskFinished = true;
 				return ERunStatus.End;
