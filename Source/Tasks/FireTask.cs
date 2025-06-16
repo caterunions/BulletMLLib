@@ -38,6 +38,7 @@ namespace BulletMLLib
 		public float StoredYOffset { get; private set; } = 0;
 		public bool AbsoluteOffset = false;
 		public float ContinuousRotation { get; private set; } = 0;
+		private bool _didWeAim = false;
 
 		public string Visuals { get; private set; } = "";
 
@@ -52,7 +53,7 @@ namespace BulletMLLib
 		/// Used to determine if we should use the "initial" or "sequence" nodes to set bullets.
 		/// </summary>
 		/// <value><c>true</c> if initial run; otherwise, <c>false</c>.</value>
-		public bool InitialRun 
+		public bool InitialRun
 		{
 			get
 			{
@@ -79,6 +80,7 @@ namespace BulletMLLib
 		/// <value>The speed node.</value>
 		public SetSpeedTask InitialSpeedTask { get; private set; }
 
+		public SetOffsetXTask InitialOffsetXTask { get; private set; }
 		/// <summary>
 		/// If there is a sequence direction node used to increment the direction of each successive bullet that is fired
 		/// </summary>
@@ -137,7 +139,7 @@ namespace BulletMLLib
 
 			GetLifetimeNode(this);
 
-			GetOffsetNode(this);
+			GetOffsetXNode(this);
 
 			GetFaceDirectionNode(this);
 
@@ -159,37 +161,37 @@ namespace BulletMLLib
 			switch (childNode.Name)
 			{
 				case ENodeName.bulletRef:
-				{
-					//Create a task for the bullet ref 
-					BulletRefNode refNode = childNode as BulletRefNode;
-					BulletRefTask = new BulletMLTask(refNode.ReferencedBulletNode, this);
-
-					//populate the params of the bullet ref
-					for (int i = 0; i < childNode.ChildNodes.Count; i++)
 					{
-						BulletRefTask.ParamList.Add(childNode.ChildNodes[i].GetValue(this));
-					}
+						//Create a task for the bullet ref 
+						BulletRefNode refNode = childNode as BulletRefNode;
+						BulletRefTask = new BulletMLTask(refNode.ReferencedBulletNode, this);
 
-					BulletRefTask.ParseTasks(bullet);
-					ChildTasks.Add(BulletRefTask);
-				}
-				break;
+						//populate the params of the bullet ref
+						for (int i = 0; i < childNode.ChildNodes.Count; i++)
+						{
+							BulletRefTask.ParamList.Add(childNode.ChildNodes[i].GetValue(this));
+						}
+
+						BulletRefTask.ParseTasks(bullet);
+						ChildTasks.Add(BulletRefTask);
+					}
+					break;
 
 				case ENodeName.bullet:
-				{
-					//Create a task for the bullet ref 
-					BulletRefTask = new BulletMLTask(childNode, this);
-					BulletRefTask.ParseTasks(bullet);
-					ChildTasks.Add(BulletRefTask);
-				}
-				break;
+					{
+						//Create a task for the bullet ref 
+						BulletRefTask = new BulletMLTask(childNode, this);
+						BulletRefTask.ParseTasks(bullet);
+						ChildTasks.Add(BulletRefTask);
+					}
+					break;
 
 				default:
-				{
-					//run the node through the base class if we don't want it
-					base.ParseChildNode(childNode, bullet);
-				}
-				break;
+					{
+						//run the node through the base class if we don't want it
+						base.ParseChildNode(childNode, bullet);
+					}
+					break;
 			}
 		}
 
@@ -211,6 +213,12 @@ namespace BulletMLLib
 		/// <param name="bullet">Bullet.</param>
 		protected override void SetupTask(Bullet bullet)
 		{
+			//offset land
+			if (InitialOffsetXTask != null)
+			{
+				StoredXOffset = InitialOffsetXTask.GetNodeValue();
+			}
+
 			//get the direction to shoot the bullet
 
 			//is this the first time it has ran?  If there isn't a sequence node, we don't care!
@@ -224,32 +232,32 @@ namespace BulletMLLib
 					switch (InitialDirectionTask.Node.NodeType)
 					{
 						case ENodeType.absolute:
-						{
-							//the new bullet points right at a particular direction
-							FireDirection = newBulletDirection;
-						}
-						break;
+							{
+								//the new bullet points right at a particular direction
+								FireDirection = newBulletDirection;
+							}
+							break;
 
 						case ENodeType.relative:
-						{
-							//the new bullet direction will be relative to the old bullet
-							FireDirection = newBulletDirection + bullet.Direction;
-						}
-						break;
+							{
+								//the new bullet direction will be relative to the old bullet
+								FireDirection = newBulletDirection + bullet.Direction;
+							}
+							break;
 
 						default:
-						{
-							//aim the bullet at the player
-							FireDirection = newBulletDirection + bullet.GetAimDir();
-						}
-						break;
+							{
+								//aim the bullet at the player
+								_didWeAim = true;
+							}
+							break;
 					}
 				}
 				else
 				{
 					//There isn't an initial direction task, so just aim at the bad guy.
 					//aim the bullet at the player
-					FireDirection = bullet.GetAimDir();
+					_didWeAim = true;
 				}
 			}
 			else if (null != SequenceDirectionTask)
@@ -271,18 +279,18 @@ namespace BulletMLLib
 					switch (InitialSpeedTask.Node.NodeType)
 					{
 						case ENodeType.relative:
-						{
-							//the new bullet speed will be relative to the old bullet
-							FireSpeed = newBulletSpeed + bullet.Speed;
-						}
-						break;
+							{
+								//the new bullet speed will be relative to the old bullet
+								FireSpeed = newBulletSpeed + bullet.Speed;
+							}
+							break;
 
 						default:
-						{
-							//the new bullet shoots at a predeterminde speed
-							FireSpeed = newBulletSpeed;
-						}
-						break;
+							{
+								//the new bullet shoots at a predeterminde speed
+								FireSpeed = newBulletSpeed;
+							}
+							break;
 					}
 				}
 				else
@@ -320,7 +328,7 @@ namespace BulletMLLib
 		public override ERunStatus Run(Bullet bullet)
 		{
 			//Create the new bullet
-      Bullet newBullet = bullet.MyBulletManager.CreateBullet(bullet, false);
+			Bullet newBullet = bullet.MyBulletManager.CreateBullet(bullet, false);
 
 			if (newBullet == null)
 			{
@@ -328,20 +336,39 @@ namespace BulletMLLib
 				TaskFinished = true;
 				return ERunStatus.End;
 			}
-
-			if(AbsoluteOffset)
+			if (InitialOffsetXTask == null)
 			{
-				newBullet.X = StoredXOffset; 
-				newBullet.Y = StoredYOffset;
+				newBullet.X = bullet.X;
 			}
 			else
 			{
-				newBullet.X = bullet.X + StoredXOffset; 
-				newBullet.Y = bullet.Y + StoredYOffset;
+				switch(InitialOffsetXTask.Node.NodeType)
+				{
+					case ENodeType.relative:
+						{
+							newBullet.X = bullet.X + StoredXOffset;
+							break;
+						}
+					default:
+						{
+							newBullet.X = StoredXOffset;
+							break;
+						}
+				}
+				
 			}
+			newBullet.Y = bullet.Y + StoredYOffset;
 
 			//set the direction of the new bullet
-			newBullet.Direction = FireDirection;
+
+			if (_didWeAim)
+			{
+				newBullet.Direction = newBullet.GetAimDir();
+			}
+			else
+			{
+				newBullet.Direction = FireDirection;
+			}
 
 			//set teh speed of the new bullet
 			newBullet.Speed = FireSpeed;
@@ -359,11 +386,11 @@ namespace BulletMLLib
 			//initialize the bullet with the bullet node stored in the Fire node
 			FireNode myFireNode = Node as FireNode;
 			System.Diagnostics.Debug.Assert(null != myFireNode);
-			
-      newBullet.InitNode(myFireNode.BulletDescriptionNode);
 
-      // Let the bullet handler initialize the bullet ingame data
-      //newBullet.InitBullet();
+			newBullet.InitNode(myFireNode.BulletDescriptionNode);
+
+			// Let the bullet handler initialize the bullet ingame data
+			//newBullet.InitBullet();
 
 			//set the owner of all the top level tasks for the new bullet to this dude
 			foreach (BulletMLTask task in newBullet.Tasks)
@@ -454,7 +481,7 @@ namespace BulletMLLib
 			if (taskToCheck == null) return;
 
 			ElemNode elemNode = taskToCheck.Node.GetChild(ENodeName.elem) as ElemNode;
-			if(elemNode == null)
+			if (elemNode == null)
 			{
 				//it didnt work GO STUPID
 				FireTask fireTask = taskToCheck as FireTask;
@@ -467,7 +494,7 @@ namespace BulletMLLib
 			if (elemNode != null)
 			{
 				bool parsed = Enum.TryParse(typeof(ElementType), elemNode.Text, true, out object result);
-				if(parsed)
+				if (parsed)
 				{
 					ElementType = (ElementType)result;
 				}
@@ -496,33 +523,24 @@ namespace BulletMLLib
 			}
 		}
 
-		private void GetOffsetNode(BulletMLTask taskToCheck)
+		private void GetOffsetXNode(BulletMLTask taskToCheck)
 		{
-			if(taskToCheck == null) return;
+			if (taskToCheck == null) return;
 
-			OffsetNode offsetNode = taskToCheck.Node.GetChild(ENodeName.offset) as OffsetNode;
-			if(offsetNode == null)
+			OffsetXNode offsetNode = taskToCheck.Node.GetChild(ENodeName.offsetX) as OffsetXNode;
+			if (offsetNode == null)
 			{
 				//it didnt work GO STUPID
 				FireTask fireTask = taskToCheck as FireTask;
 				if (fireTask != null)
 				{
-					offsetNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as OffsetNode != null) as OffsetNode;
+					offsetNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as OffsetXNode != null) as OffsetXNode;
 				}
 			}
 
-			if(offsetNode != null)
+			if (offsetNode != null)
 			{
-				string[] split = offsetNode.Text.Split(",");
-				NodeEquation.Parse(split[0]);
-				StoredXOffset = NodeEquation.Solve(null);
-				NodeEquation.Parse(split[1]);
-				StoredYOffset = NodeEquation.Solve(null);
-
-				if(offsetNode.NodeType == ENodeType.absolute)
-				{
-					AbsoluteOffset = true;
-				}
+				InitialOffsetXTask = new SetOffsetXTask(offsetNode, taskToCheck);
 			}
 		}
 
@@ -541,7 +559,7 @@ namespace BulletMLLib
 				}
 			}
 
-			if(dirNode != null)
+			if (dirNode != null)
 			{
 				FaceDirection = true;
 			}

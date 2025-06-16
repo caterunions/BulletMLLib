@@ -26,9 +26,13 @@ namespace BulletMLLib
 		trigger,
 		lifetime,
 		elem,
-		offset,
+		offsetX,
+		offsetY,
 		faceHeading,
 		continuousRotation,
-		visuals
+		visuals,
+		sine,
+		frequency,
+		amplitude
 	};
 }

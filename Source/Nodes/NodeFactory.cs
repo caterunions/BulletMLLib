@@ -108,9 +108,9 @@ namespace BulletMLLib
 					{
 						return new ElemNode();
 					}
-				case ENodeName.offset:
+				case ENodeName.offsetX:
 					{
-						return new OffsetNode();
+						return new OffsetXNode();
 					}
 				case ENodeName.faceHeading:
 					{

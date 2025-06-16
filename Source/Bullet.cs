@@ -301,8 +301,14 @@ namespace BulletMLLib
 
 			//TODO: this function doesn't seem to work... bullets sometimes just spin around in circles?
 
+			//UnityEngine.Debug.Log($"x:{xOffset} y:{yOffset}");
+			
 			//get the angle at that dude
-			Vector2 aimDir = new Vector2(X, Y) - shipPos;
+			Vector2 bulletPos = new Vector2(X, Y);
+
+			Vector2 aimDir = bulletPos - shipPos;
+
+			UnityEngine.Debug.DrawLine(bulletPos, shipPos, Color.red, 2f);
 			float val = Mathf.Atan2(aimDir.y, aimDir.x);
 			val -= Mathf.PI / 2;
 			return val;
