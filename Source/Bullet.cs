@@ -84,6 +84,11 @@ namespace BulletMLLib
 		public bool FaceDirection { get; set; }
 		public float ContinousRotation { get; set; }
 		public string Visuals { get; set; }
+		public float Frequency { get; set; }
+		public float Amplitude { get; set; }
+
+		private float _sineOffset = 0;
+		private float _timeAlive = 0;
 
 		/// <summary>
 		/// A list of tasks that will define this bullets behavior
@@ -287,6 +292,24 @@ namespace BulletMLLib
 			//only do this stuff if the bullet isn't done, cuz sin/cosin are expensive
 			X += (Acceleration.x + (float)(Mathf.Sin(Direction) * (Speed * TimeSpeed))) * Scale * Time.deltaTime;
 			Y += (Acceleration.y + (float)(-Mathf.Cos(Direction) * (Speed * TimeSpeed))) * Scale * Time.deltaTime;
+
+			if(Amplitude != 0)
+			{
+				float sine = Mathf.Sin(_timeAlive * Mathf.PI * Frequency) * Amplitude;
+
+				float delta = sine - _sineOffset;
+
+				_sineOffset = sine;
+
+				Vector2 vec = new Vector2(delta, 0);
+
+				vec = Quaternion.AngleAxis(Direction * Mathf.Rad2Deg, Vector3.forward) * vec;
+
+				X += vec.x;
+				Y += vec.y;
+			}
+
+			_timeAlive += Time.deltaTime;
 		}
 
 		/// <summary>

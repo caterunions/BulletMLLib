@@ -124,6 +124,18 @@ namespace BulletMLLib
 					{
 						return new VisualsNode();
 					}
+				case ENodeName.sine:
+					{
+						return new SineNode();
+					}
+				case ENodeName.frequency:
+					{
+						return new FrequencyNode();
+					}
+				case ENodeName.amplitude:
+					{
+						return new AmplitudeNode();
+					}
 				default:
 					{
 						throw new Exception("Unhandled type of ENodeName: \"" + nodeType.ToString() + "\"");

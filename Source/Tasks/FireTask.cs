@@ -40,6 +40,9 @@ namespace BulletMLLib
 		public float ContinuousRotation { get; private set; } = 0;
 		private bool _didWeAim = false;
 
+		private float _frequency = 0;
+		private float _amplitude = 0;
+
 		public string Visuals { get; private set; } = "";
 
 		/// <summary>
@@ -146,6 +149,8 @@ namespace BulletMLLib
 			GetContinuousRotationNode(this);
 
 			GetVisualsNode(this);
+
+			GetSineNodes(this);
 		}
 
 		/// <summary>
@@ -383,6 +388,10 @@ namespace BulletMLLib
 
 			newBullet.Visuals = Visuals;
 
+			newBullet.Frequency = _frequency;
+
+			newBullet.Amplitude = _amplitude;
+
 			//initialize the bullet with the bullet node stored in the Fire node
 			FireNode myFireNode = Node as FireNode;
 			System.Diagnostics.Debug.Assert(null != myFireNode);
@@ -605,6 +614,47 @@ namespace BulletMLLib
 			if (visNode != null)
 			{
 				Visuals = visNode.Text;
+			}
+		}
+
+		public void GetSineNodes(BulletMLTask taskToCheck)
+		{
+			if (taskToCheck == null) return;
+
+			SineNode sineNode = taskToCheck.Node.GetChild(ENodeName.sine) as SineNode;
+			if (sineNode == null)
+			{
+				//it didnt work GO STUPID
+				FireTask fireTask = taskToCheck as FireTask;
+				if (fireTask != null)
+				{
+					sineNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as SineNode != null) as SineNode;
+				}
+			}
+
+			if(sineNode != null)
+			{
+				FrequencyNode freqNode = sineNode.GetChild(ENodeName.frequency) as FrequencyNode;
+				if(freqNode != null)
+				{
+					NodeEquation.Parse(freqNode.Text);
+					_frequency = NodeEquation.Solve(null);
+				}
+				else
+				{
+					_frequency = 1;
+				}
+
+				AmplitudeNode ampNode = sineNode.GetChild(ENodeName.amplitude) as AmplitudeNode;
+				if (ampNode != null)
+				{
+					NodeEquation.Parse(ampNode.Text);
+					_amplitude = NodeEquation.Solve(null);
+				}
+				else
+				{
+					_amplitude = 1;
+				}
 			}
 		}
 
