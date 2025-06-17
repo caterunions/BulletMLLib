@@ -320,7 +320,11 @@ namespace BulletMLLib
 			{
 				float rotateBy = RotationRate * Time.deltaTime;
 				Vector2 vec = new Vector2(X, Y) - RotateOrigin;
+				UnityEngine.Debug.Log(RotateOrigin);
+				UnityEngine.Debug.Log(vec);
 				vec = Quaternion.AngleAxis(rotateBy, Vector3.forward) * vec;
+				vec += RotateOrigin;
+
 				X = vec.x; 
 				Y = vec.y;
 

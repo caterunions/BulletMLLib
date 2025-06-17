@@ -29,9 +29,10 @@ namespace BulletMLLib
 			RotRateNode rotRateNode = Node.GetChild(ENodeName.rotRate) as RotRateNode;
 
 			float originX = originXNode == null ? bullet.SpawnPos.x : originXNode.GetValue(this);
+
 			float originY = originYNode == null ? bullet.SpawnPos.y : originYNode.GetValue(this);
 
-			bullet.RotateOrigin = new Vector2(originY, originX);
+			bullet.RotateOrigin = new Vector2(originX, originY);
 			bullet.RotationRate = rotRateNode.GetValue(this);
 
 			return ERunStatus.End;
