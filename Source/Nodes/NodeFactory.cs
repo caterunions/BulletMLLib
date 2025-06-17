@@ -112,6 +112,10 @@ namespace BulletMLLib
 					{
 						return new OffsetXNode();
 					}
+				case ENodeName.offsetY:
+					{
+						return new OffsetYNode();
+					}
 				case ENodeName.faceHeading:
 					{
 						return new FaceHeadingNode();

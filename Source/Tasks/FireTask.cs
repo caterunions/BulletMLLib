@@ -86,6 +86,7 @@ namespace BulletMLLib
 		public SetSpeedTask InitialSpeedTask { get; private set; }
 
 		public SetOffsetXTask InitialOffsetXTask { get; private set; }
+		public SetOffsetYTask InitialOffsetYTask { get; private set; }
 		/// <summary>
 		/// If there is a sequence direction node used to increment the direction of each successive bullet that is fired
 		/// </summary>
@@ -144,7 +145,7 @@ namespace BulletMLLib
 
 			GetLifetimeNode(this);
 
-			GetOffsetXNode(this);
+			GetOffsetNodes(this);
 
 			GetFaceDirectionNode(this);
 
@@ -224,6 +225,11 @@ namespace BulletMLLib
 			if (InitialOffsetXTask != null)
 			{
 				StoredXOffset = InitialOffsetXTask.GetNodeValue();
+			}
+
+			if(InitialOffsetYTask != null)
+			{
+				StoredYOffset = InitialOffsetYTask.GetNodeValue();
 			}
 
 			//get the direction to shoot the bullet
@@ -343,6 +349,7 @@ namespace BulletMLLib
 				TaskFinished = true;
 				return ERunStatus.End;
 			}
+
 			if (InitialOffsetXTask == null)
 			{
 				newBullet.X = bullet.X;
@@ -362,9 +369,29 @@ namespace BulletMLLib
 							break;
 						}
 				}
-				
 			}
-			newBullet.Y = bullet.Y + StoredYOffset;
+
+			if(InitialOffsetYTask == null)
+			{
+				newBullet.Y = bullet.Y;
+			}
+			else
+			{
+				switch(InitialOffsetYTask.Node.NodeType)
+				{
+					case ENodeType.relative:
+						{
+							newBullet.Y = bullet.Y + StoredYOffset;
+							break;
+						}
+					default:
+						{
+							newBullet.Y = StoredYOffset;
+							break;
+						}
+				}
+			}
+				
 
 			//set the direction of the new bullet
 
@@ -535,24 +562,41 @@ namespace BulletMLLib
 			}
 		}
 
-		private void GetOffsetXNode(BulletMLTask taskToCheck)
+		private void GetOffsetNodes(BulletMLTask taskToCheck)
 		{
 			if (taskToCheck == null) return;
 
-			OffsetXNode offsetNode = taskToCheck.Node.GetChild(ENodeName.offsetX) as OffsetXNode;
-			if (offsetNode == null)
+			OffsetXNode offsetXNode = taskToCheck.Node.GetChild(ENodeName.offsetX) as OffsetXNode;
+			if (offsetXNode == null)
 			{
 				//it didnt work GO STUPID
 				FireTask fireTask = taskToCheck as FireTask;
 				if (fireTask != null)
 				{
-					offsetNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as OffsetXNode != null) as OffsetXNode;
+					offsetXNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as OffsetXNode != null) as OffsetXNode;
 				}
 			}
 
-			if (offsetNode != null)
+			if (offsetXNode != null)
 			{
-				InitialOffsetXTask = new SetOffsetXTask(offsetNode, taskToCheck);
+				InitialOffsetXTask = new SetOffsetXTask(offsetXNode, taskToCheck);
+			}
+
+			// Y
+			OffsetYNode offsetYNode = taskToCheck.Node.GetChild(ENodeName.offsetY) as OffsetYNode;
+			if (offsetYNode == null)
+			{
+				//it didnt work GO STUPID
+				FireTask fireTask = taskToCheck as FireTask;
+				if (fireTask != null)
+				{
+					offsetYNode = fireTask.BulletRefTask.Node.ChildNodes.FirstOrDefault(n => n as OffsetYNode != null) as OffsetYNode;
+				}
+			}
+
+			if (offsetYNode != null)
+			{
+				InitialOffsetYTask = new SetOffsetYTask(offsetYNode, taskToCheck);
 			}
 		}
 
