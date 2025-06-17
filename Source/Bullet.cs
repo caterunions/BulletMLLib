@@ -89,8 +89,9 @@ namespace BulletMLLib
 
 		private float _sineOffset = 0;
 		private float _timeAlive = 0;
-		private Vector2 _lastPos = Vector2.zero;
-		private Vector2 _posTwoFramesAgo = Vector2.zero;
+		public Vector2 RotateOrigin { get; set; } =  Vector2.zero;
+		public float RotationRate { get; set; } = 0f;
+		public Vector2 SpawnPos { get; set; } = Vector2.zero;
 
 		/// <summary>
 		/// A list of tasks that will define this bullets behavior
@@ -313,6 +314,17 @@ namespace BulletMLLib
 			for (int i = 0; i < Tasks.Count; i++)
 			{
 				Tasks[i].Run(this);
+			}
+
+			if(RotationRate != 0)
+			{
+				float rotateBy = RotationRate * Time.deltaTime;
+				Vector2 vec = new Vector2(X, Y) - RotateOrigin;
+				vec = Quaternion.AngleAxis(rotateBy, Vector3.forward) * vec;
+				X = vec.x; 
+				Y = vec.y;
+
+				Direction += rotateBy * Mathf.Deg2Rad;
 			}
 
 			X += (Acceleration.x + (float)(Mathf.Sin(Direction) * (Speed * TimeSpeed))) * Scale * Time.deltaTime;

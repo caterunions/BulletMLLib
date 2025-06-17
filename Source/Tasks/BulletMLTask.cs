@@ -58,7 +58,7 @@ namespace BulletMLLib
 			ParamList = new List<float>();
 			TaskFinished = false;
 			this.Owner = owner;
-			this.Node = node; 
+			this.Node = node;
 		}
 
 		/// <summary>
@@ -78,7 +78,7 @@ namespace BulletMLLib
 				ParseChildNode(childNode, bullet);
 			}
 		}
-		
+
 		/// <summary>
 		/// Parse a specified node and bullet into this task
 		/// </summary>
@@ -93,132 +93,138 @@ namespace BulletMLLib
 			switch (childNode.Name)
 			{
 				case ENodeName.repeat:
-				{
-					//convert the node to an repeatnode
-					RepeatNode myRepeatNode = childNode as RepeatNode;
-
-					//create a placeholder bulletmltask for the repeat node
-					RepeatTask repeatTask = new RepeatTask(myRepeatNode, this);
-
-					//parse the child nodes into the repeat task
-					repeatTask.ParseTasks(bullet);
-
-					//store the task
-					ChildTasks.Add(repeatTask);
-				}
-				break;
-			
-				case ENodeName.action:
-				{
-					//convert the node to an ActionNode
-					ActionNode myActionNode = childNode as ActionNode;
-
-					//create the action task
-					ActionTask actionTask = new ActionTask(myActionNode, this);
-
-					//parse the children of the action node into the task
-					actionTask.ParseTasks(bullet);
-
-					//store the task
-					ChildTasks.Add(actionTask);
-				}
-				break;
-		
-				case ENodeName.actionRef:
-				{
-					//convert the node to an ActionNode
-					ActionRefNode myActionNode = childNode as ActionRefNode;
-
-					//create the action task
-					ActionTask actionTask = new ActionTask(myActionNode, this);
-
-					//add the params to the action task
-					for (int i = 0; i < childNode.ChildNodes.Count; i++)
 					{
-						actionTask.ParamList.Add(childNode.ChildNodes[i].GetValue(this));
+						//convert the node to an repeatnode
+						RepeatNode myRepeatNode = childNode as RepeatNode;
+
+						//create a placeholder bulletmltask for the repeat node
+						RepeatTask repeatTask = new RepeatTask(myRepeatNode, this);
+
+						//parse the child nodes into the repeat task
+						repeatTask.ParseTasks(bullet);
+
+						//store the task
+						ChildTasks.Add(repeatTask);
 					}
+					break;
 
-					//parse the children of the action node into the task
-					actionTask.ParseTasks(bullet);
+				case ENodeName.action:
+					{
+						//convert the node to an ActionNode
+						ActionNode myActionNode = childNode as ActionNode;
 
-					//store the task
-					ChildTasks.Add(actionTask);
-				}
-				break;
-	
+						//create the action task
+						ActionTask actionTask = new ActionTask(myActionNode, this);
+
+						//parse the children of the action node into the task
+						actionTask.ParseTasks(bullet);
+
+						//store the task
+						ChildTasks.Add(actionTask);
+					}
+					break;
+
+				case ENodeName.actionRef:
+					{
+						//convert the node to an ActionNode
+						ActionRefNode myActionNode = childNode as ActionRefNode;
+
+						//create the action task
+						ActionTask actionTask = new ActionTask(myActionNode, this);
+
+						//add the params to the action task
+						for (int i = 0; i < childNode.ChildNodes.Count; i++)
+						{
+							actionTask.ParamList.Add(childNode.ChildNodes[i].GetValue(this));
+						}
+
+						//parse the children of the action node into the task
+						actionTask.ParseTasks(bullet);
+
+						//store the task
+						ChildTasks.Add(actionTask);
+					}
+					break;
+
 				case ENodeName.changeSpeed:
-				{
-					ChildTasks.Add(new ChangeSpeedTask(childNode as ChangeSpeedNode, this));
-				}
-				break;
-	
+					{
+						ChildTasks.Add(new ChangeSpeedTask(childNode as ChangeSpeedNode, this));
+					}
+					break;
+
 				case ENodeName.changeDirection:
-				{
-					ChildTasks.Add(new ChangeDirectionTask(childNode as ChangeDirectionNode, this));
-				}
-				break;
+					{
+						ChildTasks.Add(new ChangeDirectionTask(childNode as ChangeDirectionNode, this));
+					}
+					break;
 
 				case ENodeName.fire:
-				{
-					//convert the node to a fire node
-					FireNode myFireNode = childNode as FireNode;
+					{
+						//convert the node to a fire node
+						FireNode myFireNode = childNode as FireNode;
 
-					//create the fire task
-					FireTask fireTask = new FireTask(myFireNode, this);
+						//create the fire task
+						FireTask fireTask = new FireTask(myFireNode, this);
 
-					//parse the children of the fire node into the task
-					fireTask.ParseTasks(bullet);
+						//parse the children of the fire node into the task
+						fireTask.ParseTasks(bullet);
 
-					//store the task
-					ChildTasks.Add(fireTask);
-				}
-				break;
+						//store the task
+						ChildTasks.Add(fireTask);
+					}
+					break;
 
 				case ENodeName.fireRef:
-				{
-					//convert the node to a fireref node
-					FireRefNode myFireNode = childNode as FireRefNode;
-
-					//create the fire task
-					FireTask fireTask = new FireTask(myFireNode.ReferencedFireNode, this);
-
-					//add the params to the fire task
-					for (int i = 0; i < childNode.ChildNodes.Count; i++)
 					{
-						fireTask.ParamList.Add(childNode.ChildNodes[i].GetValue(this));
+						//convert the node to a fireref node
+						FireRefNode myFireNode = childNode as FireRefNode;
+
+						//create the fire task
+						FireTask fireTask = new FireTask(myFireNode.ReferencedFireNode, this);
+
+						//add the params to the fire task
+						for (int i = 0; i < childNode.ChildNodes.Count; i++)
+						{
+							fireTask.ParamList.Add(childNode.ChildNodes[i].GetValue(this));
+						}
+
+						//parse the children of the action node into the task
+						fireTask.ParseTasks(bullet);
+
+						//store the task
+						ChildTasks.Add(fireTask);
 					}
-
-					//parse the children of the action node into the task
-					fireTask.ParseTasks(bullet);
-
-					//store the task
-					ChildTasks.Add(fireTask);
-				}
-				break;
+					break;
 
 				case ENodeName.wait:
-				{
-					ChildTasks.Add(new WaitTask(childNode as WaitNode, this));
-				}
-				break;
+					{
+						ChildTasks.Add(new WaitTask(childNode as WaitNode, this));
+					}
+					break;
 
 				case ENodeName.vanish:
-				{
-					ChildTasks.Add(new VanishTask(childNode as VanishNode, this));
-				}
-				break;
+					{
+						ChildTasks.Add(new VanishTask(childNode as VanishNode, this));
+					}
+					break;
 
 				case ENodeName.accel:
-				{
-					ChildTasks.Add(new AccelTask(childNode as AccelNode, this));
-				}
-				break;
+					{
+						ChildTasks.Add(new AccelTask(childNode as AccelNode, this));
+					}
+					break;
 
-        case ENodeName.trigger:
-        {
-          ChildTasks.Add(new TriggerTask(childNode as TriggerNode, this));
-        }
-        break;
+				case ENodeName.rotate:
+					{
+						ChildTasks.Add(new SetRotateTask(childNode as RotateNode, this));
+					}
+					break;
+
+				case ENodeName.trigger:
+					{
+						ChildTasks.Add(new TriggerTask(childNode as TriggerNode, this));
+					}
+					break;
 			}
 		}
 
@@ -295,7 +301,7 @@ namespace BulletMLLib
 				}
 			}
 
-			return (TaskFinished ?  ERunStatus.End : ERunStatus.Continue);
+			return (TaskFinished ? ERunStatus.End : ERunStatus.Continue);
 		}
 
 		/// <summary>
@@ -319,7 +325,7 @@ namespace BulletMLLib
 					return 0.0f;
 				}
 			}
-			
+
 			//the value of that param is the one we want
 			return ParamList[iParamNumber - 1];
 		}

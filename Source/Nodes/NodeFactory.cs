@@ -140,6 +140,22 @@ namespace BulletMLLib
 					{
 						return new AmplitudeNode();
 					}
+				case ENodeName.rotate:
+					{
+						return new RotateNode();
+					}
+				case ENodeName.originX:
+					{
+						return new OriginXNode();
+					}
+				case ENodeName.originY:
+					{
+						return new OriginYNode();
+					}
+				case ENodeName.rotRate:
+					{
+						return new RotRateNode();
+					}
 				default:
 					{
 						throw new Exception("Unhandled type of ENodeName: \"" + nodeType.ToString() + "\"");

@@ -391,7 +391,8 @@ namespace BulletMLLib
 						}
 				}
 			}
-				
+
+			newBullet.SpawnPos = new Vector2(newBullet.X, newBullet.Y);
 
 			//set the direction of the new bullet
 

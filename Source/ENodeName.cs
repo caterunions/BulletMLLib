@@ -33,6 +33,10 @@ namespace BulletMLLib
 		visuals,
 		sine,
 		frequency,
-		amplitude
+		amplitude,
+		rotate,
+		originX,
+		originY,
+		rotRate
 	};
 }
