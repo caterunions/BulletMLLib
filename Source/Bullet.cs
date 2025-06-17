@@ -314,14 +314,11 @@ namespace BulletMLLib
 			{
 				Tasks[i].Run(this);
 			}
-			_posTwoFramesAgo = _lastPos;
-			_lastPos = new Vector2(X, Y);
 
-			//only do this stuff if the bullet isn't done, cuz sin/cosin are expensive
 			X += (Acceleration.x + (float)(Mathf.Sin(Direction) * (Speed * TimeSpeed))) * Scale * Time.deltaTime;
 			Y += (Acceleration.y + (float)(-Mathf.Cos(Direction) * (Speed * TimeSpeed))) * Scale * Time.deltaTime;
 
-			//VisualDirection = Direction;
+			VisualDirection = Direction;
 
 			if(Amplitude != 0)
 			{
@@ -338,13 +335,17 @@ namespace BulletMLLib
 				X += vec.x;
 				Y += vec.y;
 
-				//float visAngle = Mathf.Cos(_timeAlive * Mathf.PI * Frequency);
+				float visAngle = Mathf.Cos(_timeAlive * Mathf.PI * Frequency) * (Frequency / (2 / Mathf.Sqrt(Amplitude)));
 
-				//VisualDirection -= visAngle;
+				if (Frequency > 0)
+				{
+					VisualDirection += visAngle;
+				}
+				else
+				{
+					VisualDirection -= visAngle;
+				}
 			}
-
-			Vector2 posDelta = new Vector2(X, Y) - _posTwoFramesAgo;
-			VisualDirection = Mathf.Atan2(posDelta.y, posDelta.x);
 
 			_timeAlive += Time.deltaTime;
 		}

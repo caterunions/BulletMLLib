@@ -21,6 +21,7 @@ namespace BulletMLLib
 			AddFunction("rand", RandomValue);
 			AddFunction("plrX", PlayerX);
 			AddFunction("plrY", PlayerY);
+			AddFunction("rRng", RoundedRandom);
 		}
 
 		/// <summary>
@@ -31,6 +32,15 @@ namespace BulletMLLib
 		{
 			//this value is "$rand", return a random number
 			return (float)g_Random.NextDouble();
+		}
+
+		public float RoundedRandom()
+		{
+			if(g_Random.Next(2) == 0)
+			{
+				return -1;
+			}
+			return 1;
 		}
 
 		public float PlayerX()
