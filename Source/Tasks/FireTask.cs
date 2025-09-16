@@ -146,6 +146,7 @@ namespace BulletMLLib
 			GetLifetimeNode(this);
 
 			GetOffsetNodes(this);
+			GetOffsetNodes(BulletRefTask);
 
 			GetFaceDirectionNode(this);
 
