@@ -4,6 +4,18 @@ using System.Text;
 using System.Diagnostics;
 using UnityEngine;
 
+public enum ElementType
+{
+    Neutral,
+    Phys,
+    Fire,
+    Ice,
+    Electric,
+    Wind,
+    Bless,
+    Curse
+}
+
 namespace BulletMLLib
 {
 	/// <summary>

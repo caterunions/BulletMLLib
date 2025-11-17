@@ -45,12 +45,12 @@ namespace BulletMLLib
 
 		public float PlayerX()
 		{
-			return EnemyPatternManager.Instance.PlayerPosition(null).x;
+			return 0; // EnemyPatternManager.Instance.PlayerPosition(null).x;
 		}
 
 		public float PlayerY()
 		{
-			return EnemyPatternManager.Instance.PlayerPosition(null).y;
+			return 0; // EnemyPatternManager.Instance.PlayerPosition(null).y;
 		}
 	}
 }
