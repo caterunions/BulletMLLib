@@ -43,7 +43,7 @@ namespace BulletMLLib
 		/// this sets up the task to be run.
 		/// </summary>
 		/// <param name="bullet">Bullet.</param>
-		protected override void SetupTask(Bullet bullet)
+		protected override void SetupTask(MLBullet bullet)
 		{
 			//set the length of time to run this dude
 			startDuration = Node.GetChildValue(ENodeName.term, this) / 1000;
@@ -88,7 +88,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public override ERunStatus Run(Bullet bullet)
+		public override ERunStatus Run(MLBullet bullet)
 		{
 			bullet.Speed = Mathf.Lerp(SpeedChange, _startSpeed, (startDuration - Duration) / startDuration);
 

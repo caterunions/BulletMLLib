@@ -26,7 +26,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public override ERunStatus Run(Bullet bullet)
+		public override ERunStatus Run(MLBullet bullet)
 		{
 			//remove the bullet via the bullet manager interface
 			IBulletManager manager = bullet.MyBulletManager;

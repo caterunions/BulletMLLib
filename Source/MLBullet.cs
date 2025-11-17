@@ -22,11 +22,11 @@ namespace BulletMLLib
 	/// This is the bullet class that outside assemblies will interact with.
 	/// Just inherit from this class and override the abstract functions!
 	/// </summary>
-	public class Bullet
+	public class MLBullet
 	{
 		#region Members
 
-		public event Action<Bullet> OnFinishSetup;
+		public event Action<MLBullet> OnFinishSetup;
 		/// <summary>
 		/// The direction this bullet is travelling.  Measured as an angle in radians
 		/// </summary>
@@ -211,10 +211,10 @@ namespace BulletMLLib
 		#region Methods
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="BulletMLLib.Bullet"/> class.
+		/// Initializes a new instance of the <see cref="BulletMLLib.MLBullet"/> class.
 		/// </summary>
 		/// <param name="myBulletManager">My bullet manager.</param>
-		public Bullet(IBulletManager myBulletManager, bool top)
+		public MLBullet(IBulletManager myBulletManager, bool top)
 		{
 			//grba the bullet manager for this dude
 			System.Diagnostics.Debug.Assert(null != myBulletManager);
@@ -264,7 +264,7 @@ namespace BulletMLLib
 						else
 						{
 							//Create a new top bullet
-							Bullet newDude = _bulletManager.CreateBullet(this, true);
+							MLBullet newDude = _bulletManager.CreateBullet(this, true);
 
 							//set the position to this dude's position
 							newDude.X = this.X;

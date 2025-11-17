@@ -46,7 +46,7 @@ namespace BulletMLLib
 		/// this sets up the task to be run.
 		/// </summary>
 		/// <param name="bullet">Bullet.</param>
-		protected override void SetupTask(Bullet bullet)
+		protected override void SetupTask(MLBullet bullet)
 		{
 			//set the time length to run this dude
 			startDuration = Node.GetChildValue(ENodeName.term, this) / 1000;
@@ -123,7 +123,7 @@ namespace BulletMLLib
 			}
 		}
 
-		public override ERunStatus Run(Bullet bullet)
+		public override ERunStatus Run(MLBullet bullet)
 		{
 			if(_aim)
 			{

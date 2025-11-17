@@ -45,7 +45,7 @@ namespace BulletMLLib
     /// </summary>
     /// <param name="myNode">the node for this dude</param>
     /// <param name="bullet">the bullet this dude is controlling</param>
-    public override void ParseTasks(Bullet bullet)
+    public override void ParseTasks(MLBullet bullet)
     {
       //is this an actionref task?
       if (ENodeName.actionRef == Node.Name)
@@ -71,7 +71,7 @@ namespace BulletMLLib
     /// this sets up the task to be run.
     /// </summary>
     /// <param name="bullet">Bullet.</param>
-    protected override void SetupTask(Bullet bullet)
+    protected override void SetupTask(MLBullet bullet)
     {
       RepeatNum = 0;
 
@@ -88,7 +88,7 @@ namespace BulletMLLib
     /// </summary>
     /// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
     /// <param name="bullet">The bullet to update this task against.</param>
-    public override ERunStatus Run(Bullet bullet)
+    public override ERunStatus Run(MLBullet bullet)
     {
       //run the action until we hit the limit
       while (RepeatNum < RepeatNumMax)

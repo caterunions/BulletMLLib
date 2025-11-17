@@ -22,7 +22,7 @@ namespace BulletMLLib
 			System.Diagnostics.Debug.Assert(null != Owner);
 		}
 
-		public override ERunStatus Run(Bullet bullet)
+		public override ERunStatus Run(MLBullet bullet)
 		{
 			OriginXNode originXNode = Node.GetChild(ENodeName.originX) as OriginXNode;
 			OriginYNode originYNode = Node.GetChild(ENodeName.originY) as OriginYNode;

@@ -38,7 +38,7 @@ namespace BulletMLLib
 		/// this sets up the task to be run.
 		/// </summary>
 		/// <param name="bullet">Bullet.</param>
-		protected override void SetupTask(Bullet bullet)
+		protected override void SetupTask(MLBullet bullet)
 		{
       startDuration = Node.GetValue(this) / 1000;
       Duration = startDuration;
@@ -51,7 +51,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public override ERunStatus Run(Bullet bullet)
+		public override ERunStatus Run(MLBullet bullet)
 		{
 			Duration -= bullet.TimeSpeed * Time.deltaTime;
 			if (Duration >= 0.0f) // 1 frame duration should not be affected by delta time

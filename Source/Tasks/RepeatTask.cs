@@ -28,7 +28,7 @@ namespace BulletMLLib
 		/// This method should be called AFTER the nodes are parsed, but BEFORE run is called.
 		/// </summary>
 		/// <param name="bullet">the bullet this dude is controlling</param>
-		public override void InitTask(Bullet bullet)
+		public override void InitTask(MLBullet bullet)
 		{
 			//Init task is being called on a RepeatTask, which means all the sequence nodes underneath this one need to be reset
 

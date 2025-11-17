@@ -121,7 +121,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <param name="myNode">the node for this dude</param>
 		/// <param name="bullet">the bullet this dude is controlling</param>
-		public override void ParseTasks(Bullet bullet)
+		public override void ParseTasks(MLBullet bullet)
 		{
 			if (null == bullet)
 			{
@@ -162,7 +162,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <param name="myNode">the node for this dude</param>
 		/// <param name="bullet">the bullet this dude is controlling</param>
-		public override void ParseChildNode(BulletMLNode childNode, Bullet bullet)
+		public override void ParseChildNode(BulletMLNode childNode, MLBullet bullet)
 		{
 			System.Diagnostics.Debug.Assert(null != childNode);
 			System.Diagnostics.Debug.Assert(null != bullet);
@@ -208,7 +208,7 @@ namespace BulletMLLib
 		/// This gets called when nested repeat nodes get initialized.
 		/// </summary>
 		/// <param name="bullet">Bullet.</param>
-		public override void HardReset(Bullet bullet)
+		public override void HardReset(MLBullet bullet)
 		{
 			//This is the whole point of the hard reset, so the sequence nodes get reset.
 			NumTimesInitialized = 0;
@@ -220,7 +220,7 @@ namespace BulletMLLib
 		/// this sets up the task to be run.
 		/// </summary>
 		/// <param name="bullet">Bullet.</param>
-		protected override void SetupTask(Bullet bullet)
+		protected override void SetupTask(MLBullet bullet)
 		{
 			//offset land
 			if (InitialOffsetXTask != null)
@@ -339,10 +339,10 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public override ERunStatus Run(Bullet bullet)
+		public override ERunStatus Run(MLBullet bullet)
 		{
 			//Create the new bullet
-			Bullet newBullet = bullet.MyBulletManager.CreateBullet(bullet, false);
+			MLBullet newBullet = bullet.MyBulletManager.CreateBullet(bullet, false);
 
 			if (newBullet == null)
 			{

@@ -66,7 +66,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <param name="myNode">the node for this dude</param>
 		/// <param name="bullet">the bullet this dude is controlling</param>
-		public virtual void ParseTasks(Bullet bullet)
+		public virtual void ParseTasks(MLBullet bullet)
 		{
 			if (null == bullet)
 			{
@@ -84,7 +84,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <param name="myNode">the node for this dude</param>
 		/// <param name="bullet">the bullet this dude is controlling</param>
-		public virtual void ParseChildNode(BulletMLNode childNode, Bullet bullet)
+		public virtual void ParseChildNode(BulletMLNode childNode, MLBullet bullet)
 		{
 			System.Diagnostics.Debug.Assert(null != childNode);
 			System.Diagnostics.Debug.Assert(null != bullet);
@@ -232,7 +232,7 @@ namespace BulletMLLib
 		/// This gets called when nested repeat nodes get initialized.
 		/// </summary>
 		/// <param name="bullet">Bullet.</param>
-		public virtual void HardReset(Bullet bullet)
+		public virtual void HardReset(MLBullet bullet)
 		{
 			TaskFinished = false;
 
@@ -249,7 +249,7 @@ namespace BulletMLLib
 		/// This method should be called AFTER the nodes are parsed, but BEFORE run is called.
 		/// </summary>
 		/// <param name="bullet">the bullet this dude is controlling</param>
-		public virtual void InitTask(Bullet bullet)
+		public virtual void InitTask(MLBullet bullet)
 		{
 			TaskFinished = false;
 
@@ -265,7 +265,7 @@ namespace BulletMLLib
 		/// this sets up the task to be run.
 		/// </summary>
 		/// <param name="bullet">Bullet.</param>
-		protected virtual void SetupTask(Bullet bullet)
+		protected virtual void SetupTask(MLBullet bullet)
 		{
 			//overload in child classes
 		}
@@ -276,7 +276,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public virtual ERunStatus Run(Bullet bullet)
+		public virtual ERunStatus Run(MLBullet bullet)
 		{
 			//run all the child tasks
 			TaskFinished = true;

@@ -34,7 +34,7 @@ namespace BulletMLLib
     /// this sets up the task to be run.
     /// </summary>
     /// <param name="bullet">Bullet.</param>
-    protected override void SetupTask(Bullet bullet)
+    protected override void SetupTask(MLBullet bullet)
     {
       Flag = Node.Text;
     }
@@ -45,7 +45,7 @@ namespace BulletMLLib
     /// </summary>
     /// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
     /// <param name="bullet">The bullet to update this task against.</param>
-    public override ERunStatus Run(Bullet bullet)
+    public override ERunStatus Run(MLBullet bullet)
     {
       bullet.MyBulletManager.Trigger(bullet, Flag);
 
