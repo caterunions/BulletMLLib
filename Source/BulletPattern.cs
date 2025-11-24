@@ -72,7 +72,7 @@ namespace BulletMLLib
 
         public void ParseXML(TextAsset xmlAsset)
         {
-            string xmlFileNmae = xmlAsset.name;
+            string xmlFileName = xmlAsset.name;
             try
             {
                 //Open the file.
