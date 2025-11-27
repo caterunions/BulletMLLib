@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Xml.Schema;
 using System.Xml;
 using UnityEngine;
 
@@ -34,6 +31,7 @@ namespace BulletMLLib
         /// </summary>
         /// <value>The orientation.</value>
         public EPatternType Orientation { get; private set; }
+        public Guid GUID { get; private set; }
 
         #endregion //Members
 
@@ -44,6 +42,7 @@ namespace BulletMLLib
         /// </summary>
         public BulletPattern()
         {
+            GUID = Guid.NewGuid();
             RootNode = null;
         }
 
