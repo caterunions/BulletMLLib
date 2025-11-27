@@ -7,7 +7,7 @@ namespace BulletMLLib
     /// <summary>
     /// This is a complete document that describes a bullet pattern.
     /// </summary>
-    public class BulletPattern
+    public class BulletMLPattern
     {
         #region Members
 
@@ -38,9 +38,9 @@ namespace BulletMLLib
         #region Methods
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BulletMLLib.BulletPattern"/> class.
+        /// Initializes a new instance of the <see cref="BulletMLLib.BulletMLPattern"/> class.
         /// </summary>
-        public BulletPattern()
+        public BulletMLPattern()
         {
             GUID = Guid.NewGuid();
             RootNode = null;

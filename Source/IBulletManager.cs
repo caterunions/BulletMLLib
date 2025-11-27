@@ -2,42 +2,42 @@ using UnityEngine;
 
 namespace BulletMLLib
 {
-  /// <summary>
-  /// This is the interface that outisde assemblies will use to manage bullets... mostly for creating/destroying them
-  /// </summary>
-  public interface IBulletManager
-  {
-    #region Methods
-
     /// <summary>
-    /// a mathod to get current position of the player
-    /// This is used to target bullets at that position
+    /// This is the interface that outisde assemblies will use to manage bullets... mostly for creating/destroying them
     /// </summary>
-    /// <returns>The position to aim the bullet at</returns>
-    /// <param name="targettedBullet">the bullet we are getting a target for</param>
-    Vector2 PlayerPosition(MLBullet targettedBullet);
+    public interface IBulletManager
+    {
+        #region Methods
 
-    /// <summary>
-    /// A bullet is done being used, do something to get rid of it.
-    /// </summary>
-    /// <param name="deadBullet">the Dead bullet.</param>
-    void RemoveBullet(MLBullet deadBullet);
+        /// <summary>
+        /// a mathod to get current position of the player
+        /// This is used to target bullets at that position
+        /// </summary>
+        /// <returns>The position to aim the bullet at</returns>
+        /// <param name="targettedBullet">the bullet we are getting a target for</param>
+        Vector2 PlayerPosition(MLBullet targettedBullet);
 
-    /// <summary>
-    /// Create a new bullet.
-    /// </summary>
-    /// <param name="source">Bullet requesting a new friend</param>
-    /// <param name="top">Is this bullet the root of a top action?</param>
-    /// <returns>A shiny new bullet</returns>
-    MLBullet CreateBullet(MLBullet source, bool top);
+        /// <summary>
+        /// A bullet is done being used, do something to get rid of it.
+        /// </summary>
+        /// <param name="deadBullet">the Dead bullet.</param>
+        void RemoveBullet(MLBullet deadBullet);
 
-    /// <summary>
-    /// Raise a trigger
-    /// </summary>
-    /// <param name="source">Bullet requesting an action</param>
-    /// <param name="name">Trigger's name</param>
-    void Trigger(MLBullet source, string name);
+        /// <summary>
+        /// Create a new bullet.
+        /// </summary>
+        /// <param name="source">Bullet requesting a new friend</param>
+        /// <param name="top">Is this bullet the root of a top action?</param>
+        /// <returns>A shiny new bullet</returns>
+        MLBullet CreateBullet(MLBullet source, BulletMLPattern pattern, bool top);
 
-    #endregion //Methods
-  }
+        /// <summary>
+        /// Raise a trigger
+        /// </summary>
+        /// <param name="source">Bullet requesting an action</param>
+        /// <param name="name">Trigger's name</param>
+        void Trigger(MLBullet source, string name);
+
+        #endregion //Methods
+    }
 }
